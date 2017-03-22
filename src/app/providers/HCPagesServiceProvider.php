@@ -12,7 +12,7 @@ class HCPagesServiceProvider extends HCBaseServiceProvider
 
     protected $namespace = 'interactivesolutions\honeycombpages\app\http\controllers';
 
-    public $serviceProviderNameSpace = '{serviceProviderNameSpace}';
+    public $serviceProviderNameSpace = 'HCPages';
 }
 
 
