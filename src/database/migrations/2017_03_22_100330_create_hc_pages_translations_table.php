@@ -27,7 +27,7 @@ class CreateHcPagesTranslationsTable extends Migration {
 			$table->string('cover_photo_id', 36)->nullable()->index('fk_hc_pages_translations_hc_resources1_idx');
 			$table->string('author_id', 36)->nullable()->index('fk_hc_pages_translations_hc_users1_idx');
 			$table->timestamp('publish_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->dateTime('expires_at')->nullable();
+			$table->timestamp('expires_at')->nullable();
 		});
 	}
 
