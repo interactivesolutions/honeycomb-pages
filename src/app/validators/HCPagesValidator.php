@@ -12,9 +12,6 @@ class HCPagesValidator extends HCCoreFormValidator
     protected function rules()
     {
         return [
-            'author_id' => 'required',
-'publish_at' => 'required',
-
         ];
     }
 }

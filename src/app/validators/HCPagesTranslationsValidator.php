@@ -13,10 +13,7 @@ class HCPagesTranslationsValidator extends HCCoreFormValidator
     {
         return [
             'translations.*.language_code' => 'required',
-'translations.*.title' => 'required',
-'translations.*.slug' => 'required',
-'translations.*.publish_at' => 'required',
-
+            'translations.*.title'         => 'required',
         ];
     }
 }
