@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
 use interactivesolutions\honeycombpages\app\models\HCCategories;
+use interactivesolutions\honeycombpages\app\models\HCCategoriesTranslations;
 use interactivesolutions\honeycombpages\app\validators\HCCategoriesValidator;
 use interactivesolutions\honeycombpages\app\validators\HCCategoriesTranslationsValidator;
 
@@ -30,8 +31,7 @@ class HCCategoriesController extends HCBaseController
         if ($this->user()->can('interactivesolutions_honeycomb_pages_categories_create'))
             $config['actions'][] = 'new';
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_categories_update'))
-        {
+        if ($this->user()->can('interactivesolutions_honeycomb_pages_categories_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
@@ -40,7 +40,7 @@ class HCCategoriesController extends HCBaseController
             $config['actions'][] = 'delete';
 
         $config['actions'][] = 'search';
-        $config['filters'] = $this->getFilters ();
+        $config['filters'] = $this->getFilters();
 
         return view('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -53,43 +53,43 @@ class HCCategoriesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'parent_id'     => [
-    "type"  => "text",
-    "label" => trans('HCPages::categories.parent_id'),
-],
-'cover_photo_id'     => [
-    "type"  => "text",
-    "label" => trans('HCPages::categories.cover_photo_id'),
-],
-'translations.{lang}.title'     => [
-    "type"  => "text",
-    "label" => trans('HCPages::categories.title'),
-],
-'translations.{lang}.slug'     => [
-    "type"  => "text",
-    "label" => trans('HCPages::categories.slug'),
-],
-'translations.{lang}.content'     => [
-    "type"  => "text",
-    "label" => trans('HCPages::categories.content'),
-],
-'translations.{lang}.cover_photo_id'     => [
-    "type"  => "text",
-    "label" => trans('HCPages::categories.cover_photo_id'),
-],
+            'parent_id'                          => [
+                "type"  => "text",
+                "label" => trans('HCPages::categories.parent_id'),
+            ],
+            'cover_photo_id'                     => [
+                "type"  => "text",
+                "label" => trans('HCPages::categories.cover_photo_id'),
+            ],
+            'translations.{lang}.title'          => [
+                "type"  => "text",
+                "label" => trans('HCPages::categories.title'),
+            ],
+            'translations.{lang}.slug'           => [
+                "type"  => "text",
+                "label" => trans('HCPages::categories.slug'),
+            ],
+            'translations.{lang}.content'        => [
+                "type"  => "text",
+                "label" => trans('HCPages::categories.content'),
+            ],
+            'translations.{lang}.cover_photo_id' => [
+                "type"  => "text",
+                "label" => trans('HCPages::categories.cover_photo_id'),
+            ],
 
         ];
     }
 
     /**
-    * Create item
-    *
-    * @param array|null $data
-    * @return mixed
-    */
+     * Create item
+     *
+     * @param array|null $data
+     * @return mixed
+     */
     protected function __create(array $data = null)
     {
-        if(is_null($data))
+        if (is_null($data))
             $data = $this->getInputData();
 
         $record = HCCategories::create(array_get($data, 'record'));
@@ -99,11 +99,11 @@ class HCCategoriesController extends HCBaseController
     }
 
     /**
-    * Updates existing item based on ID
-    *
-    * @param $id
-    * @return mixed
-    */
+     * Updates existing item based on ID
+     *
+     * @param $id
+     * @return mixed
+     */
     protected function __update(string $id)
     {
         $record = HCCategories::findOrFail($id);
@@ -117,11 +117,11 @@ class HCCategoriesController extends HCBaseController
     }
 
     /**
-    * Updates existing specific items based on ID
-    *
-    * @param string $id
-    * @return mixed
-    */
+     * Updates existing specific items based on ID
+     *
+     * @param string $id
+     * @return mixed
+     */
     protected function __updateStrict(string $id)
     {
         HCCategories::where('id', $id)->update(request()->all());
@@ -130,33 +130,33 @@ class HCCategoriesController extends HCBaseController
     }
 
     /**
-    * Delete records table
-    *
-    * @param $list
-    * @return mixed|void
-    */
+     * Delete records table
+     *
+     * @param $list
+     * @return mixed|void
+     */
     protected function __delete(array $list)
     {
         HCCategories::destroy($list);
     }
 
     /**
-    * Delete records table
-    *
-    * @param $list
-    * @return mixed|void
-    */
+     * Delete records table
+     *
+     * @param $list
+     * @return mixed|void
+     */
     protected function __forceDelete(array $list)
     {
         HCCategories::onlyTrashed()->whereIn('id', $list)->forceDelete();
     }
 
     /**
-    * Restore multiple records
-    *
-    * @param $list
-    * @return mixed|void
-    */
+     * Restore multiple records
+     *
+     * @param $list
+     * @return mixed|void
+     */
     protected function __restore(array $list)
     {
         HCCategories::whereIn('id', $list)->restore();
@@ -173,13 +173,13 @@ class HCCategoriesController extends HCBaseController
         $with = ['translations'];
 
         if ($select == null)
-            $select = HCCategories::getFillableFields();
+            $select = HCCategories::getFillableFields(true);
 
         $list = HCCategories::with($with)->select($select)
-        // add filters
-        ->where(function ($query) use ($select) {
-            $query = $this->getRequestParameters($query, $select);
-        });
+            // add filters
+            ->where(function ($query) use ($select) {
+                $query = $this->getRequestParameters($query, $select);
+            });
 
         // enabling check for deleted
         $list = $this->checkForDeleted($list);
@@ -193,28 +193,33 @@ class HCCategoriesController extends HCBaseController
         return $list;
     }
 
-     /**
+    /**
      * List search elements
-
      * @param $list
      * @return mixed
      */
-     protected function listSearch(Builder $list)
-     {
-         if(request()->has('q'))
-         {
-             $parameter = request()->input('q');
+    protected function listSearch(Builder $list)
+    {
+        if (request()->has('q')) {
+            $parameter = request()->input('q');
 
-             $list = $list->where(function ($query) use ($parameter)
-             {
-                $query->where('parent_id', 'LIKE', '%' . $parameter . '%')
-->orWhere('cover_photo_id', 'LIKE', '%' . $parameter . '%')
-;
-             });
-         }
+            $r = HCCategories::getTableName();
+            $t = HCCategoriesTranslations::getTableName();
 
-         return $list;
-     }
+            $list = $list->where(function ($query) use ($parameter, $r, $t) {
+                $query->where("$r.parent_id", 'LIKE', '%' . $parameter . '%')
+                    ->orWhere("$t.cover_photo_id", 'LIKE', '%' . $parameter . '%');
+            });
+
+            $list = $list->join($t, "$r.id", "=", "$t.record_id")
+                ->orWhere("$t.title", 'LIKE', '%' . $parameter . '%')
+                ->orWhere("$t.slug", 'LIKE', '%' . $parameter . '%')
+                ->orWhere("$t.content", 'LIKE', '%' . $parameter . '%')
+                ->orWhere("$t.cover_photo_id", 'LIKE', '%' . $parameter . '%');
+        }
+
+        return $list;
+    }
 
     /**
      * Getting user data on POST call
@@ -229,11 +234,18 @@ class HCCategoriesController extends HCBaseController
         $_data = request()->all();
 
         array_set($data, 'record.parent_id', array_get($_data, 'parent_id'));
-array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
+        array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
 
-        array_set ($data, 'translations', array_get ($_data, 'translations'));
+        $translations = array_get($_data, 'translations');
 
-        return $data;
+        foreach ($translations as &$value) {
+            if (!isset($value['slug']) || $value['slug'] == "")
+                $value['slug'] = generateHCSlug(HCCategoriesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
+        }
+
+        array_set($data, 'translations', $translations);
+
+        return makeEmptyNullable($data);
     }
 
     /**
