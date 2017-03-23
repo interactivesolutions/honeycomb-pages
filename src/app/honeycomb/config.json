@@ -11,13 +11,15 @@
             "path": "admin\/pages",
             "translation": "HCPages::pages.page_title",
             "icon": "fa-book",
-            "aclPermission": "interactivesolutions_honeycomb_pages_pages_list"
-        },
-        {
-            "path": "admin\/categories",
-            "translation": "HCPages::categories.page_title",
-            "icon": "fa-sitemap",
-            "aclPermission": "interactivesolutions_honeycomb_pages_categories_list"
+            "aclPermission": "interactivesolutions_honeycomb_pages_pages_list",
+            "children": [
+                {
+                    "path": "admin\/categories",
+                    "translation": "HCPages::categories.page_title",
+                    "icon": "fa-sitemap",
+                    "aclPermission": "interactivesolutions_honeycomb_pages_categories_list"
+                }
+            ]
         }
     ],
     "acl": {
