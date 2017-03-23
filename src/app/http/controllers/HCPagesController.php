@@ -256,15 +256,17 @@ class HCPagesController extends HCBaseController
         array_set($data, 'record.expires_at', array_get($_data, 'expires_at'));
         array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
 
-        array_set($data, 'translations', array_get($_data, 'translations'));
+        $translations = array_get($_data, 'translations');
 
-        $data = makeEmptyNullable($data);
-
-        foreach (array_get($data, 'translations') as &$value)
-            if (!$value['slug'])
+        foreach ($translations as &$value)
+        {
+            if (!isset($value['slug']) || $value['slug'] == "")
                 $value['slug'] = generateHCSlug(HCPagesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
+        }
 
-        return $data;
+        array_set($data, 'translations', $translations);
+
+        return makeEmptyNullable($data);
     }
 
     /**
