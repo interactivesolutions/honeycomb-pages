@@ -29,86 +29,93 @@ class HCPagesForm
             ],
             'structure'  => [
                 [
-    "type"            => "singleLine",
-    "fieldID"         => "author_id",
-    "label"           => trans("HCPages::pages.author_id"),
-    "required"        => 1,
-    "requiredVisible" => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "publish_at",
-    "label"           => trans("HCPages::pages.publish_at"),
-    "required"        => 1,
-    "requiredVisible" => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "expires_at",
-    "label"           => trans("HCPages::pages.expires_at"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "cover_photo_id",
-    "label"           => trans("HCPages::pages.cover_photo_id"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "title",
-    "label"           => trans("HCPages::pages.title"),
-    "required"        => 1,
-    "requiredVisible" => 1,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "slug",
-    "label"           => trans("HCPages::pages.slug"),
-    "required"        => 1,
-    "requiredVisible" => 1,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "summary",
-    "label"           => trans("HCPages::pages.summary"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "content",
-    "label"           => trans("HCPages::pages.content"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "cover_photo_id",
-    "label"           => trans("HCPages::pages.cover_photo_id"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "author_id",
-    "label"           => trans("HCPages::pages.author_id"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "publish_at",
-    "label"           => trans("HCPages::pages.publish_at"),
-    "required"        => 1,
-    "requiredVisible" => 1,
-    "multiLanguage"   => 1,
-],[
-    "type"            => "singleLine",
-    "fieldID"         => "expires_at",
-    "label"           => trans("HCPages::pages.expires_at"),
-    "required"        => 0,
-    "requiredVisible" => 0,
-    "multiLanguage"   => 1,
-],
+                    "type"            => "resource",
+                    "fieldID"         => "cover_photo_id",
+                    "tabID"           => trans("Page"),
+                    "uploadURL"       => route("admin.api.resources"),
+                    "viewURL"         => route("resource.get", ['/']),
+                    "label"           => trans("HCPages::pages.cover_photo_id"),
+                    "fileCount"       => 1,
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                ], [
+                    "type"            => "dateTimePicker",
+                    "properties"      => [
+                        "format" => "Y-MM-D HH:mm:ss",
+                    ],
+                    "fieldID"         => "publish_at",
+                    "tabID"           => trans("Page"),
+                    "label"           => trans("HCPages::pages.publish_at"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                ], [
+                    "type"            => "dateTimePicker",
+                    "properties"      => [
+                        "format" => "Y-MM-D HH:mm:ss",
+                    ],
+                    "fieldID"         => "expires_at",
+                    "tabID"           => trans("Page"),
+                    "label"           => trans("HCPages::pages.expires_at"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                ], [
+                    "type"            => "resource",
+                    "fieldID"         => "translations.cover_photo_id",
+                    "tabID"           => trans("Translations"),
+                    "uploadURL"       => route("admin.api.resources"),
+                    "viewURL"         => route("resource.get", ['/']),
+                    "label"           => trans("HCPages::pages.cover_photo_id"),
+                    "fileCount"       => 1,
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "singleLine",
+                    "fieldID"         => "translations.title",
+                    "tabID"           => trans("Translations"),
+                    "label"           => trans("HCPages::pages.title"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "singleLine",
+                    "fieldID"         => "translations.summary",
+                    "tabID"           => trans("Translations"),
+                    "label"           => trans("HCPages::pages.summary"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "richTextArea",
+                    "fieldID"         => "translations.content",
+                    "tabID"           => trans("Translations"),
+                    "label"           => trans("HCPages::pages.content"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "dateTimePicker",
+                    "properties"      => [
+                        "format" => "Y-MM-D HH:mm:ss",
+                    ],
+                    "fieldID"         => "translations.publish_at",
+                    "tabID"           => trans("Translations"),
+                    "label"           => trans("HCPages::pages.publish_at"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "dateTimePicker",
+                    "properties"      => [
+                        "format" => "Y-MM-D HH:mm:ss",
+                    ],
+                    "fieldID"         => "translations.expires_at",
+                    "tabID"           => trans("Translations"),
+                    "label"           => trans("HCPages::pages.expires_at"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ],
             ],
         ];
 
@@ -119,7 +126,14 @@ class HCPagesForm
             return $form;
 
         //Make changes to edit form if needed
-        // $form['structure'][] = [];
+        $form['structure'][] = [
+            "type"          => "singleLine",
+            "fieldID"       => "translations.slug",
+            "tabID"         => trans("Translations"),
+            "label"         => trans("HCPages::pages.slug"),
+            "readonly"      => 1,
+            "multiLanguage" => 1,
+        ];
 
         return $form;
     }
