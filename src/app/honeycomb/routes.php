@@ -1,7 +1,7 @@
 <?php
 
 //honeycomb-pages/src/app/routes/admin/routes.categories.php
-
+Route::get('pages/{year?}/{month?}/{day?}/{slug?}', ['middleware' => ['web'], 'uses' => 'HCPagesFrontEndController@showData']);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
