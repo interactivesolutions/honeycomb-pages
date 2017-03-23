@@ -12,7 +12,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
         Route::get('/', ['as' => 'admin.api.categories', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listPage']);
         Route::get('list', ['as' => 'admin.api.categories.list', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@list']);
         Route::get('list/{timestamp}', ['as' => 'admin.api.categories.list.update', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listUpdate']);
-        Route::get('search', ['as' => 'admin.api.categories.search', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listSearch']);
         Route::get('{id}', ['as' => 'admin.api.categories.single', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@getSingleRecord']);
 
         Route::post('{id}/duplicate', ['as' => 'admin.api.categories.duplicate', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_update'], 'uses' => 'HCCategoriesController@duplicate']);
