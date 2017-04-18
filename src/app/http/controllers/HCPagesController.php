@@ -1,5 +1,4 @@
-<?php
-namespace interactivesolutions\honeycombpages\app\http\controllers;
+<?php namespace interactivesolutions\honeycombpages\app\http\controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +10,7 @@ use interactivesolutions\honeycombpages\app\validators\HCPagesTranslationsValida
 
 class HCPagesController extends HCBaseController
 {
+
     //TODO recordsPerPage setting
 
     /**
@@ -119,8 +119,6 @@ class HCPagesController extends HCBaseController
 
         $record = HCPages::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
-
-        $this->generatePage($data);
 
         return $this->getSingleRecord($record->id);
     }
@@ -260,7 +258,8 @@ class HCPagesController extends HCBaseController
 
         $translations = array_get($_data, 'translations');
 
-        foreach ($translations as &$value) {
+        foreach ($translations as &$value)
+        {
             if (!isset($value['slug']) || $value['slug'] == "")
                 $value['slug'] = generateHCSlug(HCPagesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
         }
@@ -301,126 +300,4 @@ class HCPagesController extends HCBaseController
 
         return $filters;
     }
-
-    /**
-     * Generating page
-     *
-     * @param array $data
-     */
-    public function generatePage(array $data)
-    {
-//        $this->createWebsiteFrame();
-        if (!file_exists(public_path('assets')))
-            $this->createWebsiteFrame();
-
-
-        foreach ($data['translations'] as $value) {
-            $this->createFileFromTemplate([
-                "destination"         => __DIR__ . '/../../../resources/views/page/' . $value['slug'] . '.blade.php',
-                "templateDestination" => __DIR__ . '/../../commands/templates/index.hctpl',
-                "content" => [
-                    "title" => $value['title']
-                ]
-            ]);
-        }
-//        dd('test');
-    }
-
-    /**
-     * Replace file
-     * @param $configuration
-     * @internal param $destination
-     * @internal param $templateDestination
-     * @internal param array $content
-     */
-    public function createFileFromTemplate(array $configuration)
-    {
-        $destination = $configuration['destination'];
-        $templateDestination = $configuration['templateDestination'];
-
-        if ($destination[0] == '/')
-            $preserveSlash = '/';
-        else
-            $preserveSlash = '';
-
-        $destination = str_replace('\\', '/', $destination);
-
-        $template = file_get_contents($templateDestination);
-
-        if (isset($configuration['content']))
-            $template = replaceBrackets($template, $configuration['content']);
-
-        $directory = array_filter(explode('/', $destination));
-        array_pop($directory);
-        $directory = $preserveSlash . implode('/', $directory);
-
-        app('interactivesolutions\honeycombcore\commands\HCCommand')->createDirectory($directory);
-        file_put_contents($destination, $template);
-    }
-
-    public function createWebsiteFrame()
-    {
-
-        $fileList = [
-            //assets/css
-            [
-                "destination"         => base_path('public/assets/css/bootstrap.css'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/css/bootstrap.css.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/css/bootstrap.min.css'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/css/bootstrap.min.css.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/css/custom.css'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/css/custom.css.hctpl',
-            ],
-            //assets/fonts
-            [
-                "destination"         =>  base_path('public/assets/fonts/glyphicons-halflings-regular.eot'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/fonts/glyphicons-halflings-regular.eot.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/fonts/glyphicons-halflings-regular.svg'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/fonts/glyphicons-halflings-regular.svg.hctpl',
-            ], [
-                "destination"         =>base_path('public/assets/fonts/glyphicons-halflings-regular.ttf'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/fonts/glyphicons-halflings-regular.ttf.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/fonts/glyphicons-halflings-regular.woff'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/fonts/glyphicons-halflings-regular.woff.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/fonts/glyphicons-halflings-regular.woff2'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/fonts/glyphicons-halflings-regular.woff2.hctpl',
-            ],
-            //assets/js
-            [
-                "destination"         => base_path('public/assets/js/bootstrap.js'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/js/bootstrap.js.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/js/bootstrap.min.js'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/js/bootstrap.min.js.hctpl',
-            ], [
-                "destination"         =>base_path('public/assets/js/custom.js'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/js/custom.js.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/js/ie10-viewport-bug-workaround.js'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/js/ie10-viewport-bug-workaround.js.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/js/jquery.easing.min.js'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/js/jquery.easing.min.js.hctpl',
-            ], [
-                "destination"         => base_path('public/assets/js/jquery-1.11.3.min.js'),
-                "templateDestination" => __DIR__ . '/../../commands/templates/js/jquery-1.11.3.min.js.hctpl',
-            ],
-
-
-        ];
-
-        foreach ($fileList as $value)
-            if (!file_exists($value['destination']))
-                $this->createFileFromTemplate($value);
-
-        dd('test');
-    }
 }
-
-
-
