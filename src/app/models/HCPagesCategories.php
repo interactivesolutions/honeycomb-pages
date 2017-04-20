@@ -4,7 +4,7 @@ namespace interactivesolutions\honeycombpages\app\models;
 
 use interactivesolutions\honeycombcore\models\HCMultiLanguageModel;
 
-class HCCategories extends HCMultiLanguageModel
+class HCPagesCategories extends HCMultiLanguageModel
 {
     /**
      * The database table used by the model.

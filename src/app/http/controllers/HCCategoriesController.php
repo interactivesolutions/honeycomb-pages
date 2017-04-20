@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
-use interactivesolutions\honeycombpages\app\models\HCCategories;
-use interactivesolutions\honeycombpages\app\models\HCCategoriesTranslations;
+use interactivesolutions\honeycombpages\app\models\HCPagesCategories;
+use interactivesolutions\honeycombpages\app\models\HCPagesCategoriesTranslations;
 use interactivesolutions\honeycombpages\app\validators\HCCategoriesValidator;
 use interactivesolutions\honeycombpages\app\validators\HCCategoriesTranslationsValidator;
 
@@ -92,7 +92,7 @@ class HCCategoriesController extends HCBaseController
         if (is_null($data))
             $data = $this->getInputData();
 
-        $record = HCCategories::create(array_get($data, 'record'));
+        $record = HCPagesCategories::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
 
         return $this->getSingleRecord($record->id);
@@ -106,7 +106,7 @@ class HCCategoriesController extends HCBaseController
      */
     protected function __update(string $id)
     {
-        $record = HCCategories::findOrFail($id);
+        $record = HCPagesCategories::findOrFail($id);
 
         $data = $this->getInputData();
 
@@ -124,7 +124,7 @@ class HCCategoriesController extends HCBaseController
      */
     protected function __updateStrict(string $id)
     {
-        HCCategories::where('id', $id)->update(request()->all());
+        HCPagesCategories::where('id', $id)->update(request()->all());
 
         return $this->getSingleRecord($id);
     }
@@ -137,7 +137,7 @@ class HCCategoriesController extends HCBaseController
      */
     protected function __delete(array $list)
     {
-        HCCategories::destroy($list);
+        HCPagesCategories::destroy($list);
     }
 
     /**
@@ -148,7 +148,7 @@ class HCCategoriesController extends HCBaseController
      */
     protected function __forceDelete(array $list)
     {
-        HCCategories::onlyTrashed()->whereIn('id', $list)->forceDelete();
+        HCPagesCategories::onlyTrashed()->whereIn('id', $list)->forceDelete();
     }
 
     /**
@@ -159,7 +159,7 @@ class HCCategoriesController extends HCBaseController
      */
     protected function __restore(array $list)
     {
-        HCCategories::whereIn('id', $list)->restore();
+        HCPagesCategories::whereIn('id', $list)->restore();
     }
 
     /**
@@ -173,11 +173,11 @@ class HCCategoriesController extends HCBaseController
         $with = ['translations'];
 
         if ($select == null)
-            $select = HCCategories::getFillableFields(true);
+            $select = HCPagesCategories::getFillableFields(true);
 
-        $list = HCCategories::with($with)->select($select)
+        $list = HCPagesCategories::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+                                 ->where(function ($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -203,8 +203,8 @@ class HCCategoriesController extends HCBaseController
         if (request()->has('q')) {
             $parameter = request()->input('q');
 
-            $r = HCCategories::getTableName();
-            $t = HCCategoriesTranslations::getTableName();
+            $r = HCPagesCategories::getTableName();
+            $t = HCPagesCategoriesTranslations::getTableName();
 
             $list = $list->where(function ($query) use ($parameter, $r, $t) {
                 $query->where("$r.parent_id", 'LIKE', '%' . $parameter . '%')
@@ -240,7 +240,7 @@ class HCCategoriesController extends HCBaseController
 
         foreach ($translations as &$value) {
             if (!isset($value['slug']) || $value['slug'] == "")
-                $value['slug'] = generateHCSlug(HCCategoriesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
+                $value['slug'] = generateHCSlug(HCPagesCategoriesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
         }
 
         array_set($data, 'translations', $translations);
@@ -258,12 +258,12 @@ class HCCategoriesController extends HCBaseController
     {
         $with = ['translations'];
 
-        $select = HCCategories::getFillableFields();
+        $select = HCPagesCategories::getFillableFields();
 
-        $record = HCCategories::with($with)
-            ->select($select)
-            ->where('id', $id)
-            ->firstOrFail();
+        $record = HCPagesCategories::with($with)
+                                   ->select($select)
+                                   ->where('id', $id)
+                                   ->firstOrFail();
 
         return $record;
     }

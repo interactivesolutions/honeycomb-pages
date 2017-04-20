@@ -4,7 +4,7 @@ namespace interactivesolutions\honeycombpages\app\models;
 
 use interactivesolutions\honeycombcore\models\HCUuidModel;
 
-class HCCategoriesTranslations extends HCUuidModel
+class HCPagesCategoriesTranslations extends HCUuidModel
 {
     /**
      * The database table used by the model.
