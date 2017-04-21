@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
-    Route::get('categories', ['as' => 'admin.categories', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@adminView']);
+    Route::get('pages/categories', ['as' => 'admin.categories', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@adminView']);
 
     Route::group(['prefix' => 'api/categories'], function ()
     {

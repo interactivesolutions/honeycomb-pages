@@ -14,7 +14,7 @@
             "aclPermission": "interactivesolutions_honeycomb_pages_pages_list",
             "children": [
                 {
-                    "path": "admin\/categories",
+                    "path": "admin\/pages\/categories",
                     "translation": "HCPages::categories.page_title",
                     "icon": "fa-sitemap",
                     "aclPermission": "interactivesolutions_honeycomb_pages_categories_list"
