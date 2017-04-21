@@ -84,7 +84,7 @@ class HCCategoriesForm
         ];
 
         if ($this->multiLanguage)
-            $form['availableLanguages'] = getHCContentLanguages()->pluck('id');
+            $form['availableLanguages'] = getHCContentLanguages();
 
         if (!$edit)
             return $form;

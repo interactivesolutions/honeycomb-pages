@@ -2,6 +2,8 @@
 
 namespace interactivesolutions\honeycombpages\app\forms;
 
+use interactivesolutions\honeycombpages\app\models\HCPagesCategories;
+
 class HCPagesForm
 {
     // name of the form
@@ -38,6 +40,15 @@ class HCPagesForm
                     "fileCount"       => 1,
                     "required"        => 0,
                     "requiredVisible" => 0,
+                ],[
+                    "type"            => "dropDownList",
+                    "fieldID"         => "category_id",
+                    "tabID"           => trans("Page"),
+                    "label"           => trans("HCPages::pages.category"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "options"         => HCPagesCategories::with('translations')->get(),
+                    "showNodes"       => ['translations.{lang}.title']
                 ], [
                     "type"            => "dateTimePicker",
                     "properties"      => [
@@ -120,7 +131,7 @@ class HCPagesForm
         ];
 
         if ($this->multiLanguage)
-            $form['availableLanguages'] = getHCContentLanguages()->pluck('id');
+            $form['availableLanguages'] = getHCContentLanguages();
 
         if (!$edit)
             return $form;
