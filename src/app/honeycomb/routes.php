@@ -3,7 +3,7 @@
 //honeycomb-pages/src/app/routes/admin/routes.categories.php
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
+Route::group(['prefix' => env('HC_ADMIN_URL'), 'middleware' => ['web', 'auth']], function ()
 {
     Route::get('pages/categories', ['as' => 'admin.categories', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@adminView']);
 
@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 //honeycomb-pages/src/app/routes/admin/routes.pages.php
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
+Route::group(['prefix' => env('HC_ADMIN_URL'), 'middleware' => ['web', 'auth']], function ()
 {
     Route::get('pages', ['as' => 'admin.pages', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@adminView']);
 
