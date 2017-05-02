@@ -1,12 +1,12 @@
 <?php
 
-Route::group(['prefix' => 'api', 'middleware' => ['web', 'auth-apps']], function ()
+Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function ()
 {
     Route::group(['prefix' => 'v1/categories'], function ()
     {
         Route::get('/', ['as' => 'api.v1.categories', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listPage']);
         Route::get('list', ['as' => 'api.v1.categories.list', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@list']);
-        Route::get('list/{timestamp}', ['as' => 'api.v1.categories.list.update', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listUpdate']);
+        Route::get('list/{timestamp}', ['as' => 'api.v1.categories.list.update', 'middleware' => ['acl-apps:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listUpdate']);
         Route::get('search', ['as' => 'api.v1.categories.search', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@listSearch']);
         Route::get('{id}', ['as' => 'api.v1.categories.single', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@getSingleRecord']);
 

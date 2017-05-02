@@ -1,12 +1,12 @@
 <?php
 
-Route::group(['prefix' => 'api', 'middleware' => ['web', 'auth-apps']], function ()
+Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function ()
 {
     Route::group(['prefix' => 'v1/pages'], function ()
     {
         Route::get('/', ['as' => 'api.v1.pages', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@listPage']);
         Route::get('list', ['as' => 'api.v1.pages.list', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@list']);
-        Route::get('list/{timestamp}', ['as' => 'api.v1.pages.list.update', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@listUpdate']);
+        Route::get('list/{timestamp}', ['as' => 'api.v1.pages.list.update', 'middleware' => ['acl-apps:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@listUpdate']);
         Route::get('search', ['as' => 'api.v1.pages.search', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@listSearch']);
         Route::get('{id}', ['as' => 'api.v1.pages.single', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@getSingleRecord']);
 
