@@ -18,7 +18,7 @@ class HCPagesController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminView()
+    public function adminIndex()
     {
         $config = [
             'title'       => trans('HCPages::pages.page_title'),
@@ -29,15 +29,15 @@ class HCPagesController extends HCBaseController
             'headers'     => $this->getAdminListHeader(),
         ];
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_pages_create'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_pages_create'))
             $config['actions'][] = 'new';
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_pages_update')) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_pages_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_pages_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_pages_delete'))
             $config['actions'][] = 'delete';
 
         $config['actions'][] = 'search';
@@ -112,7 +112,7 @@ class HCPagesController extends HCBaseController
      * @param array|null $data
      * @return mixed
      */
-    protected function __create(array $data = null)
+    protected function __apiStore(array $data = null)
     {
         if (is_null($data))
             $data = $this->getInputData();
@@ -120,7 +120,7 @@ class HCPagesController extends HCBaseController
         $record = HCPages::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -129,7 +129,7 @@ class HCPagesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    protected function __update(string $id)
+    protected function __apiUpdate(string $id)
     {
         $record = HCPages::findOrFail($id);
 
@@ -138,7 +138,7 @@ class HCPagesController extends HCBaseController
         $record->update(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -147,11 +147,11 @@ class HCPagesController extends HCBaseController
      * @param string $id
      * @return mixed
      */
-    protected function __updateStrict(string $id)
+    protected function __apiUpdateStrict(string $id)
     {
         HCPages::where('id', $id)->update(request()->all());
 
-        return $this->getSingleRecord($id);
+        return $this->apiShow($id);
     }
 
     /**
@@ -160,7 +160,7 @@ class HCPagesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __delete(array $list)
+    protected function __apiDestroy(array $list)
     {
         HCPages::destroy($list);
     }
@@ -171,7 +171,7 @@ class HCPagesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __forceDelete(array $list)
+    protected function __apiForceDelete(array $list)
     {
         HCPages::onlyTrashed()->whereIn('id', $list)->forceDelete();
     }
@@ -182,7 +182,7 @@ class HCPagesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __restore(array $list)
+    protected function __apiRestore(array $list)
     {
         HCPages::whereIn('id', $list)->restore();
     }
@@ -193,7 +193,7 @@ class HCPagesController extends HCBaseController
      * @param array $select
      * @return mixed
      */
-    public function createQuery(array $select = null)
+    protected function createQuery(array $select = null)
     {
         $with = ['translations'];
 
@@ -210,7 +210,7 @@ class HCPagesController extends HCBaseController
         $list = $this->checkForDeleted($list);
 
         // add search items
-        $list = $this->listSearch($list);
+        $list = $this->search($list);
 
         // ordering data
         $list = $this->orderData($list, $select);
@@ -275,7 +275,7 @@ class HCPagesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function getSingleRecord(string $id)
+    public function apiShow(string $id)
     {
         $with = ['translations'];
 

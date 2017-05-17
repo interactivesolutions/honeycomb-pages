@@ -17,7 +17,7 @@ class HCCategoriesController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminView()
+    public function adminIndex()
     {
         $config = [
             'title'       => trans('HCPages::categories.page_title'),
@@ -28,15 +28,15 @@ class HCCategoriesController extends HCBaseController
             'headers'     => $this->getAdminListHeader(),
         ];
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_categories_create'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_create'))
             $config['actions'][] = 'new';
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_categories_update')) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if ($this->user()->can('interactivesolutions_honeycomb_pages_categories_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_delete'))
             $config['actions'][] = 'delete';
 
         $config['actions'][] = 'search';
@@ -87,7 +87,7 @@ class HCCategoriesController extends HCBaseController
      * @param array|null $data
      * @return mixed
      */
-    protected function __create(array $data = null)
+    protected function __apiStore(array $data = null)
     {
         if (is_null($data))
             $data = $this->getInputData();
@@ -95,7 +95,7 @@ class HCCategoriesController extends HCBaseController
         $record = HCPagesCategories::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -104,7 +104,7 @@ class HCCategoriesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    protected function __update(string $id)
+    protected function __apiUpdate(string $id)
     {
         $record = HCPagesCategories::findOrFail($id);
 
@@ -113,7 +113,7 @@ class HCCategoriesController extends HCBaseController
         $record->update(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -122,11 +122,11 @@ class HCCategoriesController extends HCBaseController
      * @param string $id
      * @return mixed
      */
-    protected function __updateStrict(string $id)
+    protected function __apiUpdateStrict(string $id)
     {
         HCPagesCategories::where('id', $id)->update(request()->all());
 
-        return $this->getSingleRecord($id);
+        return $this->apiShow($id);
     }
 
     /**
@@ -135,7 +135,7 @@ class HCCategoriesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __delete(array $list)
+    protected function __apiDestroy(array $list)
     {
         HCPagesCategories::destroy($list);
     }
@@ -146,7 +146,7 @@ class HCCategoriesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __forceDelete(array $list)
+    protected function __apiForceDelete(array $list)
     {
         HCPagesCategories::onlyTrashed()->whereIn('id', $list)->forceDelete();
     }
@@ -157,7 +157,7 @@ class HCCategoriesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __restore(array $list)
+    protected function __apiRestore(array $list)
     {
         HCPagesCategories::whereIn('id', $list)->restore();
     }
@@ -168,7 +168,7 @@ class HCCategoriesController extends HCBaseController
      * @param array $select
      * @return mixed
      */
-    public function createQuery(array $select = null)
+    protected function createQuery(array $select = null)
     {
         $with = ['translations'];
 
@@ -185,7 +185,7 @@ class HCCategoriesController extends HCBaseController
         $list = $this->checkForDeleted($list);
 
         // add search items
-        $list = $this->listSearch($list);
+        $list = $this->search($list);
 
         // ordering data
         $list = $this->orderData($list, $select);
@@ -254,7 +254,7 @@ class HCCategoriesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function getSingleRecord(string $id)
+    public function apiShow(string $id)
     {
         $with = ['translations'];
 
