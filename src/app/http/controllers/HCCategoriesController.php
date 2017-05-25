@@ -195,30 +195,21 @@ class HCCategoriesController extends HCBaseController
 
     /**
      * List search elements
-     * @param $list
+     * @param Builder $query
+     * @param string $phrase
      * @return mixed
      */
-    protected function listSearch(Builder $list)
+    protected function searchQuery(Builder $query, string $phrase)
     {
-        if (request()->has('q')) {
-            $parameter = request()->input('q');
+        $r = HCPagesCategories::getTableName();
+        $t = HCPagesCategoriesTranslations::getTableName();
 
-            $r = HCPagesCategories::getTableName();
-            $t = HCPagesCategoriesTranslations::getTableName();
+        return $query->join($t, "$r.id", "=", "$t.record_id")
+            ->orWhere("$t.title", 'LIKE', '%' . $phrase . '%')
+            ->orWhere("$t.slug", 'LIKE', '%' . $phrase . '%')
+            ->orWhere("$t.content", 'LIKE', '%' . $phrase . '%')
+            ->orWhere("$t.cover_photo_id", 'LIKE', '%' . $phrase . '%');
 
-            $list = $list->where(function ($query) use ($parameter, $r, $t) {
-                $query->where("$r.parent_id", 'LIKE', '%' . $parameter . '%')
-                    ->orWhere("$t.cover_photo_id", 'LIKE', '%' . $parameter . '%');
-            });
-
-            $list = $list->join($t, "$r.id", "=", "$t.record_id")
-                ->orWhere("$t.title", 'LIKE', '%' . $parameter . '%')
-                ->orWhere("$t.slug", 'LIKE', '%' . $parameter . '%')
-                ->orWhere("$t.content", 'LIKE', '%' . $parameter . '%')
-                ->orWhere("$t.cover_photo_id", 'LIKE', '%' . $parameter . '%');
-        }
-
-        return $list;
     }
 
     /**

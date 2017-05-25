@@ -198,7 +198,7 @@ class HCPagesController extends HCBaseController
         $with = ['translations'];
 
         if ($select == null)
-            $select = HCPages::getFillableFields();
+            $select = HCPages::getFillableFields(true);
 
         $list = HCPages::with($with)->select($select)
             // add filters
@@ -220,23 +220,19 @@ class HCPagesController extends HCBaseController
 
     /**
      * List search elements
-     * @param $list
-     * @return mixed
+     * @param Builder $query
+     * @param string $phrase
+     * @return Builder
      */
-    protected function listSearch(Builder $list)
+    protected function searchQuery(Builder $query, string $phrase)
     {
-        if (request()->has('q')) {
-            $parameter = request()->input('q');
+        $r = HCPages::getTableName();
+        $t = HCPagesTranslations::getTableName();
 
-            $list = $list->where(function ($query) use ($parameter) {
-                $query->where('author_id', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('publish_at', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('expires_at', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('cover_photo_id', 'LIKE', '%' . $parameter . '%');
-            });
-        }
-
-        return $list;
+        return $query->join($t, "$r.id", "=", "$t.record_id")
+                       ->orWhere("$t.title", 'LIKE', '%' . $phrase . '%')
+                       ->orWhere("$t.slug", 'LIKE', '%' . $phrase . '%')
+                       ->orWhere("$t.content", 'LIKE', '%' . $phrase . '%');
     }
 
     /**
