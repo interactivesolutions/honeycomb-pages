@@ -38,6 +38,6 @@ class HCPagesFrontEndController extends HCBaseController
         $data = $list->first()->toArray();
 
         //TODO move to environment
-        return view('HCPages::page.single', ['config' => $data]);
+        return hcview('HCPages::page.single', ['config' => $data]);
     }
 }
