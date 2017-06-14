@@ -247,7 +247,9 @@ class HCPagesController extends HCBaseController
 
         $_data = request()->all();
 
-        array_set($data, 'record.author_id', Auth::user()->id);
+        $user = Auth::user() ? Auth::user()->id : null;
+
+        array_set($data, 'record.author_id', $user);
         array_set($data, 'record.publish_at', array_get($_data, 'publish_at'));
         array_set($data, 'record.expires_at', array_get($_data, 'expires_at'));
         array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
