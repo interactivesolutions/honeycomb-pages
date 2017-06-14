@@ -10,8 +10,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['auth-apps']], function ()
 
         Route::group(['prefix' => 'list'], function ()
         {
-            Route::get('list', ['as' => 'api.v1.categories.list', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@apiIndex']);
-            Route::get('list/{timestamp}', ['as' => 'api.v1.categories.list.update', 'middleware' => ['acl-apps:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@apiIndexSync']);
+            Route::get('/', ['as' => 'api.v1.categories.list', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@apiIndex']);
+            Route::get('{timestamp}', ['as' => 'api.v1.categories.list.update', 'middleware' => ['acl-apps:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@apiIndexSync']);
         });
 
         Route::post('restore', ['as' => 'api.v1.categories.restore', 'middleware' => ['acl-apps:api_v1_interactivesolutions_honeycomb_pages_categories_update'], 'uses' => 'HCCategoriesController@apiRestore']);
