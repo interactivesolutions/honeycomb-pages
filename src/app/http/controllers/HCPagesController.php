@@ -247,6 +247,9 @@ class HCPagesController extends HCBaseController
 
         $_data = request()->all();
 
+        if (array_has($_data, 'id'))
+            array_set ($data, 'record.id', array_get ($_data, 'id'));
+
         $user = Auth::user() ? Auth::user()->id : null;
 
         array_set($data, 'record.author_id', $user);

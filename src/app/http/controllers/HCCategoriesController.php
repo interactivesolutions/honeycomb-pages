@@ -224,6 +224,9 @@ class HCCategoriesController extends HCBaseController
 
         $_data = request()->all();
 
+        if (array_has($_data, 'id'))
+            array_set ($data, 'record.id', array_get ($_data, 'id'));
+
         array_set($data, 'record.parent_id', array_get($_data, 'parent_id'));
         array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
 
