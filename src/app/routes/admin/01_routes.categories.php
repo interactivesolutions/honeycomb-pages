@@ -10,6 +10,7 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
         Route::post('/', ['middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_create'], 'uses' => 'HCCategoriesController@apiStore']);
         Route::delete('/', ['middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_delete'], 'uses' => 'HCCategoriesController@apiDestroy']);
 
+        Route::get('list', ['as' => 'admin.api.categories.list', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@apiIndex']);
         Route::post('merge', ['as' => 'admin.api.categories.merge', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_create', 'acl:interactivesolutions_honeycomb_pages_categories_update'], 'uses' => 'HCCategoriesController@apiMerge']);
         Route::post('restore', ['as' => 'admin.api.categories.restore', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_update'], 'uses' => 'HCCategoriesController@apiRestore']);
         Route::delete('force', ['as' => 'admin.api.categories.force.multi', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_force_delete'], 'uses' => 'HCCategoriesController@apiForceDelete']);
