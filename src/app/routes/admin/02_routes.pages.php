@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function ()
 {
-    Route::get('pages', ['as' => 'admin.pages', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@adminIndex']);
+    Route::get('pages', ['as' => 'admin.pages.index', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@adminIndex']);
 
     Route::group(['prefix' => 'api/pages'], function ()
     {
