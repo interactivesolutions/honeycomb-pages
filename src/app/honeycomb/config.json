@@ -8,16 +8,14 @@
     },
     "adminMenu": [
         {
-            "path": "admin\/pages",
             "route": "admin.pages.index",
             "translation": "HCPages::pages.page_title",
             "icon": "fa-book",
             "aclPermission": "interactivesolutions_honeycomb_pages_pages_list"
         },
         {
-            "path": "admin\/pages\/categories",
             "route": "admin.pages.categories.index",
-            "parent": "admin/pages",
+            "parent": "admin.pages.index",
             "translation": "HCPages::categories.page_title",
             "icon": "fa-sitemap",
             "aclPermission": "interactivesolutions_honeycomb_pages_categories_list"
