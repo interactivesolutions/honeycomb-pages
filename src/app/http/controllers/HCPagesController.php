@@ -158,33 +158,39 @@ class HCPagesController extends HCBaseController
      * Delete records table
      *
      * @param $list
-     * @return mixed|void
+     * @return mixed
      */
     protected function __apiDestroy(array $list)
     {
         HCPages::destroy($list);
+
+        return hcSuccess();
     }
 
     /**
      * Delete records table
      *
      * @param $list
-     * @return mixed|void
+     * @return mixed
      */
     protected function __apiForceDelete(array $list)
     {
         HCPages::onlyTrashed()->whereIn('id', $list)->forceDelete();
+
+        return hcSuccess();
     }
 
     /**
      * Restore multiple records
      *
      * @param $list
-     * @return mixed|void
+     * @return mixed
      */
     protected function __apiRestore(array $list)
     {
         HCPages::whereIn('id', $list)->restore();
+
+        return hcSuccess();
     }
 
     /**
