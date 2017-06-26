@@ -273,6 +273,9 @@ class HCPagesController extends HCBaseController
 
         array_set($data, 'translations', $translations);
 
+        array_set($data, 'users', array_get($_data, 'users', []));
+        array_set($data, 'userGroups', array_get($_data, 'userGroups', []));
+
         return makeEmptyNullable($data);
     }
 
