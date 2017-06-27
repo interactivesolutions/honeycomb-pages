@@ -10,5 +10,5 @@ return [
     'summary'        => 'Summary',
     'content'        => 'Content',
     'category'       => 'Category',
-
+    'type'           => 'Type',
 ];

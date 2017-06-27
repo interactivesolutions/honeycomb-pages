@@ -1,3 +1,3 @@
 <?php
 
-Route::get('pages/{year?}/{month?}/{day?}/{slug?}', ['middleware' => ['web'], 'uses' => 'HCPagesFrontEndController@showData']);
+Route::get('pages/{year?}/{month?}/{day?}/{slug?}', ['middleware' => ['web'], 'as' => 'pages', 'uses' => 'HCPagesFrontEndController@showData']);

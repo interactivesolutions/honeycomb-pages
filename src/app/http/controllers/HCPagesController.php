@@ -54,6 +54,10 @@ class HCPagesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
+            'type'                          => [
+                "type"  => "text",
+                "label" => trans('HCPages::pages.type'),
+            ],
             'author_id'                          => [
                 "type"  => "text",
                 "label" => trans('HCPages::pages.author_id'),
@@ -262,6 +266,7 @@ class HCPagesController extends HCBaseController
         array_set($data, 'record.publish_at', array_get($_data, 'publish_at'));
         array_set($data, 'record.expires_at', array_get($_data, 'expires_at'));
         array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
+        array_set($data, 'record.type', array_get($_data, 'type'));
 
         $translations = array_get($_data, 'translations');
 

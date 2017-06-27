@@ -4,6 +4,7 @@ namespace interactivesolutions\honeycombpages\app\forms;
 
 use interactivesolutions\honeycombacl\app\models\HCUsers;
 use interactivesolutions\honeycombacl\app\models\users\HCGroups;
+use interactivesolutions\honeycombpages\app\models\HCPages;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategories;
 
 class HCPagesForm
@@ -32,6 +33,15 @@ class HCPagesForm
                 ],
             ],
             'structure'  => [
+                [
+                    "type"            => "dropDownList",
+                    "fieldID"         => "type",
+                    "tabID"           => trans("Page"),
+                    "label"           => trans("HCPages::pages.type"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "options"         => HCPages::getTableEnumList('type'),
+                ],
                 [
                     "type"            => "resource",
                     "fieldID"         => "cover_photo_id",

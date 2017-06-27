@@ -23,6 +23,8 @@ class HCPagesFrontEndController extends HCBaseController
 
         if ($day)
             return $this->showByDay();
+
+        abort(404, 'Page not found');
     }
 
     protected function showPage(string $slug)
@@ -33,7 +35,7 @@ class HCPagesFrontEndController extends HCBaseController
         $list = HCPages::select(HCPages::getFillableFields(true))->with('translation');
         $list = $list->join($t, "$r.id", "=", "$t.record_id")
             ->where("$t.slug", $slug)
-            ->where("$t.language_code", 'eng');
+            ->where("$t.language_code", 'en');
 
         $data = $list->first()->toArray();
 
