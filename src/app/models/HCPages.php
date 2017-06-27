@@ -5,6 +5,8 @@ namespace interactivesolutions\honeycombpages\app\models;
 use Carbon\Carbon;
 use interactivesolutions\honeycombcore\models\HCMultiLanguageModel;
 use interactivesolutions\honeycombcore\models\traits\CustomAppends;
+use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
+use interactivesolutions\honeycombmenu\app\models\HCMenu;
 use interactivesolutions\honeycombresources\app\models\HCResources;
 
 class HCPages extends HCMultiLanguageModel
@@ -128,16 +130,25 @@ class HCPages extends HCMultiLanguageModel
         return route('page', get_translation_name('slug', app()->getLocale(), $this->translations->toArray()));
     }
 
-//
-//    /**
-//     * Remove cache from menu
-//     */
-//    public function removeCacheFromMenu()
-//    {
-//        $menuIds = $this->menu_items()->pluck('menu_id')->unique()->all();
-//
-//        foreach ( $menuIds as $menuId ) {
-//            MenuHelper::clearCache($menuId, $this->language_code);
-//        }
-//    }
+    /**
+     * Relation to menu items
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function menu_items()
+    {
+        return $this->hasMany(HCMenu::class, 'page_id', 'id');
+    }
+
+    /**
+     * Remove cache from menu
+     */
+    public function removeCacheFromMenu()
+    {
+        $menuTypeIds = $this->menu_items()->pluck('menu_type_id')->unique()->all();
+
+        foreach ( $menuTypeIds as $menuTypeId ) {
+            MenuHelper::clearCache($menuTypeId, app()->getLocale());
+        }
+    }
 }
