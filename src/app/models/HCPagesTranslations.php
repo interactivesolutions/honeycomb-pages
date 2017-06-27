@@ -30,4 +30,14 @@ class HCPagesTranslations extends HCUuidModel
     {
         return $this->belongsTo(HCLanguages::class, 'language_code', 'iso_639_1');
     }
+
+    /**
+     * Relation to parent
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function record()
+    {
+        return $this->belongsTo(str_replace('Translations', '', get_class($this)), 'record_id', 'id');
+    }
 }

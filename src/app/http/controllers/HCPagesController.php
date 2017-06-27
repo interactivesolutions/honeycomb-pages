@@ -315,4 +315,31 @@ class HCPagesController extends HCBaseController
 
         return $filters;
     }
+
+    /**
+     * Get options by request data
+     *
+     * @return array
+     */
+    public function options()
+    {
+        if( request()->has('language') ) {
+            $pages = HCPagesTranslations::select('record_id as id', 'title', 'language_code')
+                ->where('language_code', request('language'));
+
+            if( request()->has('type') ) {
+                $pages->whereHas('record', function($query) {
+                    $query->where('type', strtoupper(request('type')));
+                });
+            }
+
+            if( request()->has('q') ) {
+                $pages->where('title', 'LIKE', '%' . request('q') . '%');
+            }
+
+            return $pages->get();
+        }
+
+        return [];
+    }
 }

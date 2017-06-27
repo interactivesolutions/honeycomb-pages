@@ -10,6 +10,7 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
         Route::delete('/', ['middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_delete'], 'uses' => 'HCPagesController@apiDestroy']);
         Route::post('/', ['middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_create'], 'uses' => 'HCPagesController@apiStore']);
 
+        Route::get('options', ['as' => 'admin.api.pages.options', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@options']);
         Route::get('list', ['as' => 'admin.api.pages.list', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_list'], 'uses' => 'HCPagesController@apiIndex']);
         Route::post('restore', ['as' => 'admin.api.pages.restore', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_update'], 'uses' => 'HCPagesController@apiRestore']);
         Route::post('merge', ['as' => 'admin.api.pages.merge', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_pages_create', 'acl:interactivesolutions_honeycomb_pages_pages_update'], 'uses' => 'HCPagesController@apiMerge']);
