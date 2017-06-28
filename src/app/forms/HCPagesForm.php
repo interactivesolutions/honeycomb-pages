@@ -139,6 +139,31 @@ class HCPagesForm
                     "requiredVisible" => 0,
                     "multiLanguage"   => 1,
                 ],
+                [
+                    "type"            => "singleLine",
+                    "fieldID"         => "translations.seo_title",
+                    "tabID"           => trans('HCTranslations::core.seo'),
+                    "label"           => trans ("HCTranslations::core.seo_title"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "singleLine",
+                    "fieldID"         => "translations.seo_description",
+                    "tabID"           => trans('HCTranslations::core.seo'),
+                    "label"           => trans ("HCTranslations::core.seo_description"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ], [
+                    "type"            => "singleLine",
+                    "fieldID"         => "translations.seo_keywords",
+                    "tabID"           => trans('HCTranslations::core.seo'),
+                    "label"           => trans ("HCTranslations::core.seo_keywords"),
+                    "required"        => 0,
+                    "requiredVisible" => 0,
+                    "multiLanguage"   => 1,
+                ],
             ],
         ];
 
