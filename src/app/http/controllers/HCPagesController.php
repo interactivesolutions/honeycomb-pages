@@ -167,6 +167,7 @@ class HCPagesController extends HCBaseController
      */
     protected function __apiDestroy(array $list)
     {
+        HCPagesTranslations::destroy (HCPagesTranslations::whereIn ('record_id', $list)->pluck ('id')->toArray ());
         $pages = HCPages::findMany($list);
 
         foreach ( $pages as $page ) {
@@ -185,6 +186,7 @@ class HCPagesController extends HCBaseController
      */
     protected function __apiForceDelete(array $list)
     {
+        HCPagesTranslations::onlyTrashed ()->whereIn ('record_id', $list)->forceDelete ();
         HCPages::onlyTrashed()->whereIn('id', $list)->forceDelete();
 
         return hcSuccess();
@@ -198,7 +200,8 @@ class HCPagesController extends HCBaseController
      */
     protected function __apiRestore(array $list)
     {
-        $pages = HCPages::whereIn('id', $list)->get();
+        HCPagesTranslations::onlyTrashed ()->whereIn ('record_id', $list)->restore ();
+        $pages = HCPages::onlyTrashed ()->whereIn('id', $list)->get();
 
         foreach ( $pages as $page ) {
             $page->restore();
