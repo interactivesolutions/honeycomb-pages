@@ -52,15 +52,18 @@ class HCPagesForm
                     "fileCount"       => 1,
                     "required"        => 0,
                     "requiredVisible" => 0,
-                ],[
+                ], [
                     "type"            => "dropDownList",
-                    "fieldID"         => "category_id",
-                    "tabID"           => trans("Page"),
-                    "label"           => trans("HCPages::pages.category"),
+                    "fieldID"         => "categories",
+                    "tabID"           => trans ("Page"),
+                    "label"           => trans ("HCPages::pages.categories"),
                     "required"        => 1,
                     "requiredVisible" => 1,
-                    "options"         => HCPagesCategories::with('translations')->get(),
-                    "showNodes"       => ['translations.{lang}.title']
+                    "options"         => HCPagesCategories::with ('translations')->get (),
+                    "search"          => [
+                        "showNodes" => ['translations.{lang}.title'],
+                        "minimumSelectionLength" => 1,
+                    ],
                 ], [
                     "type"            => "dateTimePicker",
                     "properties"      => [
@@ -124,8 +127,6 @@ class HCPagesForm
                     "fieldID"         => "translations.publish_at",
                     "tabID"           => trans("HCTranslations::core.translations"),
                     "label"           => trans("HCPages::pages.publish_at"),
-                    "required"        => 1,
-                    "requiredVisible" => 1,
                     "multiLanguage"   => 1,
                 ], [
                     "type"            => "dateTimePicker",
