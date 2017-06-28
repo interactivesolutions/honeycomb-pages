@@ -151,4 +151,9 @@ class HCPages extends HCMultiLanguageModel
             MenuHelper::clearCache($menuTypeId, app()->getLocale());
         }
     }
+
+    public function categories ()
+    {
+        return $this->belongsToMany(HCPagesCategories::class, HCPagesCategoriesConnections::getTableName(), 'page_id', 'category_id');
+    }
 }

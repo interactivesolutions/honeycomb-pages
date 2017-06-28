@@ -55,7 +55,6 @@ class HCCategoriesForm
                     "type"            => "singleLine",
                     "fieldID"         => "translations.title",
                     "tabID"           => trans("Translations"),
-                    "tabID"           => trans("Translations"),
                     "label"           => trans("HCPages::categories.title"),
                     "required"        => 1,
                     "requiredVisible" => 1,

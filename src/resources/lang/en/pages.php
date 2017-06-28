@@ -10,5 +10,6 @@ return [
     'summary'        => 'Summary',
     'content'        => 'Content',
     'category'       => 'Category',
+    'categories'     => 'Categories',
     'type'           => 'Type',
 ];

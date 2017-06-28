@@ -123,6 +123,7 @@ class HCPagesController extends HCBaseController
 
         $record = HCPages::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
+        $record->categories()->sync(array_get($data, 'categories'));
 
         return $this->apiShow($record->id);
     }
@@ -141,6 +142,7 @@ class HCPagesController extends HCBaseController
 
         $record->update(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
+        $record->categories()->sync(array_get($data, 'categories'));
         $record->removeCachedMenu();
 
         return $this->apiShow($record->id);
@@ -219,7 +221,7 @@ class HCPagesController extends HCBaseController
      */
     protected function createQuery(array $select = null)
     {
-        $with = ['translations'];
+        $with = ['translations', 'categories'];
 
         if ($select == null)
             $select = HCPages::getFillableFields(true);
@@ -292,6 +294,8 @@ class HCPagesController extends HCBaseController
 
         array_set($data, 'translations', $translations);
 
+        array_set($data, 'categories', array_get($_data, 'categories', []));
+
         array_set($data, 'users', array_get($_data, 'users', []));
         array_set($data, 'userGroups', array_get($_data, 'userGroups', []));
 
@@ -306,7 +310,7 @@ class HCPagesController extends HCBaseController
      */
     public function apiShow(string $id)
     {
-        $with = ['translations'];
+        $with = ['translations', 'categories'];
 
         $select = HCPages::getFillableFields();
 
