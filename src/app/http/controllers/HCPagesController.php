@@ -141,7 +141,7 @@ class HCPagesController extends HCBaseController
 
         $record->update(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
-        $record->removeCacheFromMenu();
+        $record->removeCachedMenu();
 
         return $this->apiShow($record->id);
     }
@@ -170,7 +170,7 @@ class HCPagesController extends HCBaseController
         $pages = HCPages::findMany($list);
 
         foreach ( $pages as $page ) {
-            $page->removeCacheFromMenu();
+            $page->removeCachedMenu();
             $page->delete();
         }
 
@@ -202,7 +202,7 @@ class HCPagesController extends HCBaseController
 
         foreach ( $pages as $page ) {
             $page->restore();
-            $page->removeCacheFromMenu();
+            $page->removeCachedMenu();
         }
 
         return hcSuccess();

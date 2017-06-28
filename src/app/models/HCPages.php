@@ -141,9 +141,9 @@ class HCPages extends HCMultiLanguageModel
     }
 
     /**
-     * Remove cache from menu
+     * Remove cached menu
      */
-    public function removeCacheFromMenu()
+    public function removeCachedMenu()
     {
         $menuTypeIds = $this->menu_items()->pluck('menu_type_id')->unique()->all();
 
