@@ -3,6 +3,7 @@
 namespace interactivesolutions\honeycombpages\app\models;
 
 use Carbon\Carbon;
+use interactivesolutions\honeycombacl\app\models\HCUsers;
 use interactivesolutions\honeycombcore\models\HCMultiLanguageModel;
 use interactivesolutions\honeycombcore\models\traits\CustomAppends;
 use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
@@ -38,7 +39,6 @@ class HCPages extends HCMultiLanguageModel
         return $this->belongsTo(HCUsers::class, 'author_id', 'id');
     }
 
-    
     /**
      * Relation to resource
      *
