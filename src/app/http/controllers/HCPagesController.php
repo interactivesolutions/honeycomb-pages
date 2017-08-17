@@ -58,7 +58,7 @@ class HCPagesController extends HCBaseController
                 "type"  => "text",
                 "label" => trans('HCPages::pages.type'),
             ],
-            'author_id'                          => [
+            'author.email'                          => [
                 "type"  => "text",
                 "label" => trans('HCPages::pages.author_id'),
             ],
@@ -221,7 +221,7 @@ class HCPagesController extends HCBaseController
      */
     protected function createQuery(array $select = null)
     {
-        $with = ['translations', 'categories'];
+        $with = ['translations', 'categories', 'author'];
 
         if ($select == null)
             $select = HCPages::getFillableFields(true);
@@ -256,9 +256,9 @@ class HCPagesController extends HCBaseController
         $t = HCPagesTranslations::getTableName();
 
         return $query->join($t, "$r.id", "=", "$t.record_id")
-                       ->orWhere("$t.title", 'LIKE', '%' . $phrase . '%')
-                       ->orWhere("$t.slug", 'LIKE', '%' . $phrase . '%')
-                       ->orWhere("$t.content", 'LIKE', '%' . $phrase . '%');
+            ->orWhere("$t.title", 'LIKE', '%' . $phrase . '%')
+            ->orWhere("$t.slug", 'LIKE', '%' . $phrase . '%')
+            ->orWhere("$t.content", 'LIKE', '%' . $phrase . '%');
     }
 
     /**

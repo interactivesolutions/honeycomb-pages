@@ -34,13 +34,13 @@ class HCPagesForm
             ],
             'structure'  => [
                 [
-                    "type"            => "dropDownList",
+                    "type"            => "radioList",
                     "fieldID"         => "type",
                     "tabID"           => trans("Page"),
                     "label"           => trans("HCPages::pages.type"),
                     "required"        => 1,
                     "requiredVisible" => 1,
-                    "options"         => HCPages::getTableEnumList('type'),
+                    "options"         => HCPages::getTableEnumList('type', 'label'),
                 ],
                 [
                     "type"            => "resource",
