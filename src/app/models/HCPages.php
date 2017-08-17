@@ -27,6 +27,18 @@ class HCPages extends HCMultiLanguageModel
      */
     protected $fillable = ['id', 'author_id', 'publish_at', 'expires_at', 'cover_photo_id', 'type'];
 
+
+    /**
+     * Relation to record
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(HCUsers::class, 'author_id', 'id');
+    }
+
+    
     /**
      * Relation to resource
      *
