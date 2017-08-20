@@ -1,11 +1,11 @@
-<?php namespace interactivesolutions\honeycombpages\app\http\controllers;
+<?php namespace interactivesolutions\honeycombpages\app\http\controllers\frontend;
 
 use Carbon\Carbon;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
 use interactivesolutions\honeycombpages\app\models\HCPages;
 use interactivesolutions\honeycombpages\app\models\HCPagesTranslations;
 
-class HCPagesFrontEndController extends HCBaseController
+class HCPagesController extends HCBaseController
 {
     /**
      * Based on provided data showing content

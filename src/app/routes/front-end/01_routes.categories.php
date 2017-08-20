@@ -1,3 +1,6 @@
 <?php
 
-//Route::get('pages/categories/{slug}', ['middleware' => ['web'], 'uses' => 'HCCategoriesController@showData']);
+Route::group(['prefix' => '{lang}/pages/categories/', 'middleware' => ['web']], function () {
+    Route::get('/', ['uses' => 'frontend\\HCPagesCategoriesController@showCategoriesList']);
+    Route::get('{slug}', ['uses' => 'frontend\\HCPagesCategoriesController@showCategoriesPages']);
+});
