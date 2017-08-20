@@ -60,12 +60,6 @@ class HCPagesForm
                     "search"          => [
                         "showNodes" => ['translations.{lang}.title'],
                         "minimumSelectionLength" => 1,
-                    ],
-                    "dependencies" => [
-                        [
-                            "field_id" => "type",
-                            "field_value" => "PAGE"
-                        ]
                     ]
                 ], [
                     "type"            => "dateTimePicker",
