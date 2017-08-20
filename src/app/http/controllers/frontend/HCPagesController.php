@@ -17,11 +17,11 @@ class HCPagesController extends HCBaseController
      * @param string|null $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showArticle (string $lang, string $year = null, string $month = null, string $day = null, string $slug = null)
+    public function showArticles (string $lang, string $year = null, string $month = null, string $day = null, string $slug = null)
     {
         //URL -> articles/2017/03/23/page-name
         if ($slug)
-            return $this->showPage(null, $slug);
+            return $this->showArticle($lang, $year, $month, $day, $slug);
 
         if ($day)
             return $this->showByDate((new Carbon($year . '-' . $month . '-' . $day))->startOfDay(), (new Carbon($year . '-' . $month . '-' . $day))->endOfDay());
@@ -42,12 +42,18 @@ class HCPagesController extends HCBaseController
      */
     protected function showPage(string $lang, string $slug)
     {
-        $data = HCPagesTranslations::where('slug', $slug)
-            ->where('language_code', app()->getLocale())
-            ->with('record')->first();
+        $r = HCPages::getTableName();
+        $t = HCPagesTranslations::getTableName();
 
-        //TODO make new SQL call where `publish_at` in the HCPages table will be included
-        //TODO make new SQL call where `type` in the HCPages table will be included
+        $query = HCPages::with(['translation', 'categories', 'author'])->select(HCPages::getFillableFields(true));
+
+        $query->join($t, "$r.id", "=", "$t.record_id")
+            ->where("$t.slug", $slug)
+            ->where("$t.language_code", $lang)
+            ->where("$r.type", 'PAGE')
+            ->where("$r.publish_at", '<', Carbon::now());
+
+        $data = $query->first();
 
         if (!$data)
             abort(404, 'Page not found');
@@ -65,6 +71,7 @@ class HCPagesController extends HCBaseController
     protected function showByDate (Carbon $startAt, Carbon $endAt)
     {
         $data = HCPages::with('translation')
+            ->where('type', 'ARTICLE')
             ->where('publish_at', '>=', $startAt)
             ->where('publish_at', '<=', $endAt)
             ->where('publish_at', '<', Carbon::now())
@@ -72,6 +79,39 @@ class HCPagesController extends HCBaseController
 
         $data['data'] = removeRecordsWithNoTranslation($data['data']);
 
-        return hcview('HCPages::page.list', ['data' => ['list' => $data]]);
+        return hcview('HCPages::article.list', ['data' => ['list' => $data]]);
+    }
+
+    /**
+     * Returning single article view
+     *
+     * @param string $lang
+     * @param string $year
+     * @param string $month
+     * @param string $day
+     * @param string $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function showArticle (string $lang, string $year, string $month, string $day, string $slug)
+    {
+        $r = HCPages::getTableName();
+        $t = HCPagesTranslations::getTableName();
+
+        $query = HCPages::with(['translation', 'categories', 'author'])->select(HCPages::getFillableFields(true));
+
+        $query->join($t, "$r.id", "=", "$t.record_id")
+            ->where("$t.slug", $slug)
+            ->where("$t.language_code", $lang)
+            ->where("$r.type", 'ARTICLE')
+            ->where('publish_at', '>=', (new Carbon($year . '-' . $month . '-' . $day))->startOfDay())
+            ->where('publish_at', '<=', (new Carbon($year . '-' . $month . '-' . $day))->endOfDay())
+            ->where('publish_at', '<', Carbon::now());
+
+        $data = $query->first();
+
+        if (!$data)
+            abort(404, 'Page not found');
+
+        return hcview('HCPages::article.single', ['data' => ['article' => $data->toArray()]]);
     }
 }
