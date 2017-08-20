@@ -2,6 +2,7 @@
 
 namespace interactivesolutions\honeycombpages\app\forms;
 
+use Carbon\Carbon;
 use interactivesolutions\honeycombacl\app\models\HCUsers;
 use interactivesolutions\honeycombacl\app\models\users\HCGroups;
 use interactivesolutions\honeycombpages\app\models\HCPages;
@@ -50,20 +51,22 @@ class HCPagesForm
                     "viewURL"         => route("resource.get", ['/']),
                     "label"           => trans("HCPages::pages.cover_photo_id"),
                     "fileCount"       => 1,
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                 ], [
                     "type"            => "dropDownList",
                     "fieldID"         => "categories",
                     "tabID"           => trans ("Page"),
                     "label"           => trans ("HCPages::pages.categories"),
-                    "required"        => 1,
-                    "requiredVisible" => 1,
                     "options"         => HCPagesCategories::with ('translations')->get (),
                     "search"          => [
                         "showNodes" => ['translations.{lang}.title'],
                         "minimumSelectionLength" => 1,
                     ],
+                    "dependencies" => [
+                        [
+                            "field_id" => "type",
+                            "field_value" => "PAGE"
+                        ]
+                    ]
                 ], [
                     "type"            => "dateTimePicker",
                     "properties"      => [
@@ -72,18 +75,6 @@ class HCPagesForm
                     "fieldID"         => "publish_at",
                     "tabID"           => trans("Page"),
                     "label"           => trans("HCPages::pages.publish_at"),
-                    "required"        => 1,
-                    "requiredVisible" => 1,
-                ], [
-                    "type"            => "dateTimePicker",
-                    "properties"      => [
-                        "format" => "Y-MM-D HH:mm:ss",
-                    ],
-                    "fieldID"         => "expires_at",
-                    "tabID"           => trans("Page"),
-                    "label"           => trans("HCPages::pages.expires_at"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                 ], [
                     "type"            => "resource",
                     "fieldID"         => "translations.cover_photo_id",
@@ -92,8 +83,6 @@ class HCPagesForm
                     "viewURL"         => route("resource.get", ['/']),
                     "label"           => trans("HCPages::pages.cover_photo_id"),
                     "fileCount"       => 1,
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                     "multiLanguage"   => 1,
                 ], [
                     "type"            => "singleLine",
@@ -108,67 +97,20 @@ class HCPagesForm
                     "fieldID"         => "translations.summary",
                     "tabID"           => trans("HCTranslations::core.translations"),
                     "label"           => trans("HCPages::pages.summary"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                     "multiLanguage"   => 1,
                 ], [
                     "type"            => "richTextArea",
                     "fieldID"         => "translations.content",
                     "tabID"           => trans("HCTranslations::core.translations"),
                     "label"           => trans("HCPages::pages.content"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                    "multiLanguage"   => 1,
-                ], [
-                    "type"            => "dateTimePicker",
-                    "properties"      => [
-                        "format" => "Y-MM-D HH:mm:ss",
-                    ],
-                    "fieldID"         => "translations.publish_at",
-                    "tabID"           => trans("HCTranslations::core.translations"),
-                    "label"           => trans("HCPages::pages.publish_at"),
-                    "multiLanguage"   => 1,
-                ], [
-                    "type"            => "dateTimePicker",
-                    "properties"      => [
-                        "format" => "Y-MM-D HH:mm:ss",
-                    ],
-                    "fieldID"         => "translations.expires_at",
-                    "tabID"           => trans("HCTranslations::core.translations"),
-                    "label"           => trans("HCPages::pages.expires_at"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                    "multiLanguage"   => 1,
-                ],
-                [
-                    "type"            => "singleLine",
-                    "fieldID"         => "translations.seo_title",
-                    "tabID"           => trans('HCTranslations::core.seo'),
-                    "label"           => trans ("HCTranslations::core.seo_title"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                    "multiLanguage"   => 1,
-                ], [
-                    "type"            => "singleLine",
-                    "fieldID"         => "translations.seo_description",
-                    "tabID"           => trans('HCTranslations::core.seo'),
-                    "label"           => trans ("HCTranslations::core.seo_description"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
-                    "multiLanguage"   => 1,
-                ], [
-                    "type"            => "singleLine",
-                    "fieldID"         => "translations.seo_keywords",
-                    "tabID"           => trans('HCTranslations::core.seo'),
-                    "label"           => trans ("HCTranslations::core.seo_keywords"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                     "multiLanguage"   => 1,
                 ],
             ],
         ];
 
-        $form['structure'][] = [
+        formManagerSeo($form, $this->multiLanguage);
+
+        /*$form['structure'][] = [
             "type"            => "dropDownList",
             "fieldID"         => "userGroups",
             "tabID"           => trans("HCTranslations::core.ownership"),
@@ -189,7 +131,7 @@ class HCPagesForm
                 "showNodes" => ['email'],
                 "tabs"      => true
             ]
-        ];
+        ];*/
 
         if ($this->multiLanguage)
             $form['availableLanguages'] = getHCContentLanguages();

@@ -26,7 +26,7 @@ class HCPages extends HCMultiLanguageModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'author_id', 'publish_at', 'expires_at', 'cover_photo_id', 'type'];
+    protected $fillable = ['id', 'author_id', 'publish_at', 'cover_photo_id', 'type'];
 
 
     /**

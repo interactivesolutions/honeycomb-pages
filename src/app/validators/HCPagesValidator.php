@@ -13,8 +13,6 @@ class HCPagesValidator extends HCCoreFormValidator
     {
         return [
             "type" => "required",
-            "categories" => "required",
-            "publish_at" => "required",
         ];
     }
 }
