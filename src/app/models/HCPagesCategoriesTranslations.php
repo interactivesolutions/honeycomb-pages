@@ -18,5 +18,5 @@ class HCPagesCategoriesTranslations extends HCUuidModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'record_id', 'language_code', 'title', 'slug', 'content', 'cover_photo_id'];
+    protected $fillable = ['id', 'record_id', 'language_code', 'title', 'slug', 'content', 'cover_photo_id', 'seo_title', 'seo_description', 'seo_keywords'];
 }

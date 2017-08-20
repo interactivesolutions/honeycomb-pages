@@ -31,20 +31,16 @@ class HCCategoriesForm
                 [
                     "type"            => "resource",
                     "fieldID"         => "cover_photo_id",
-                    "tabID"           => trans("General"),
+                    "tabID"           => trans("HCTranslations::core.general"),
                     "label"           => trans("HCPages::categories.cover_photo_id"),
                     "uploadURL"       => route("admin.api.resources"),
                     "viewURL"         => route("resource.get", ['/']),
                     "fileCount"       => 1,
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                 ], [
                     "type"            => "dropDownList",
                     "fieldID"         => "parent_id",
-                    "tabID"           => trans("General"),
+                    "tabID"           => trans("HCTranslations::core.general"),
                     "label"           => trans("HCPages::categories.parent_id"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                     "search"          => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
@@ -54,7 +50,7 @@ class HCCategoriesForm
                 ],  [
                     "type"            => "singleLine",
                     "fieldID"         => "translations.title",
-                    "tabID"           => trans("Translations"),
+                    "tabID"           => trans("HCTranslations::core.translations"),
                     "label"           => trans("HCPages::categories.title"),
                     "required"        => 1,
                     "requiredVisible" => 1,
@@ -62,21 +58,17 @@ class HCCategoriesForm
                 ], [
                     "type"            => "richTextArea",
                     "fieldID"         => "translations.content",
-                    "tabID"           => trans("Translations"),
+                    "tabID"           => trans("HCTranslations::core.translations"),
                     "label"           => trans("HCPages::categories.content"),
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                     "multiLanguage"   => 1,
                 ], [
                     "type"            => "resource",
                     "fieldID"         => "translations.cover_photo_id",
-                    "tabID"           => trans("Translations"),
+                    "tabID"           => trans("HCTranslations::core.translations"),
                     "label"           => trans("HCPages::categories.cover_photo_id"),
                     "uploadURL"       => route("admin.api.resources"),
                     "viewURL"         => route("resource.get", ['/']),
                     "fileCount"       => 1,
-                    "required"        => 0,
-                    "requiredVisible" => 0,
                     "multiLanguage"   => 1,
                 ],
             ],
@@ -85,6 +77,8 @@ class HCCategoriesForm
         if ($this->multiLanguage)
             $form['availableLanguages'] = getHCContentLanguages();
 
+        formManagerSeo($form, $this->multiLanguage);
+
         if (!$edit)
             return $form;
 
@@ -92,7 +86,7 @@ class HCCategoriesForm
         $form['structure'][] = [
             "type"          => "singleLine",
             "fieldID"       => "translations.slug",
-            "tabID"         => trans("Translations"),
+            "tabID"         => trans("HCTranslations::core.translations"),
             "label"         => trans("HCPages::categories.slug"),
             "readonly"      => 1,
             "multiLanguage" => 1,
