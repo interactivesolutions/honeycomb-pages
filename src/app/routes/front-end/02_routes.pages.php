@@ -1,3 +1,6 @@
 <?php
 
-Route::get('pages/{year?}/{month?}/{day?}/{slug?}', ['middleware' => ['web'], 'as' => 'page', 'uses' => 'HCPagesFrontEndController@showData']);
+Route::group(['prefix' => '{lang}/pages/', 'middleware' => 'web'], function () {
+
+    Route::get('{slug?}', ['as' => 'page', 'uses' => 'HCPagesFrontEndController@showPage']);
+});
