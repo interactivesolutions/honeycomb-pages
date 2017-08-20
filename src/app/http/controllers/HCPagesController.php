@@ -54,24 +54,12 @@ class HCPagesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'type'                          => [
+            'type'                               => [
                 "type"  => "text",
                 "label" => trans('HCPages::pages.type'),
             ],
-            'author.email'                          => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.author_id'),
-            ],
-            'publish_at'                         => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.publish_at'),
-            ],
-            'expires_at'                         => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.expires_at'),
-            ],
             'cover_photo_id'                     => [
-                "type"  => "text",
+                "type"  => "image",
                 "label" => trans('HCPages::pages.cover_photo_id'),
             ],
             'translations.{lang}.title'          => [
@@ -82,31 +70,10 @@ class HCPagesController extends HCBaseController
                 "type"  => "text",
                 "label" => trans('HCPages::pages.slug'),
             ],
-            'translations.{lang}.summary'        => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.summary'),
-            ],
-            'translations.{lang}.content'        => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.content'),
-            ],
-            'translations.{lang}.cover_photo_id' => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.cover_photo_id'),
-            ],
-            'translations.{lang}.author_id'      => [
+            'author.email'                       => [
                 "type"  => "text",
                 "label" => trans('HCPages::pages.author_id'),
             ],
-            'translations.{lang}.publish_at'     => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.publish_at'),
-            ],
-            'translations.{lang}.expires_at'     => [
-                "type"  => "text",
-                "label" => trans('HCPages::pages.expires_at'),
-            ],
-
         ];
     }
 
@@ -123,7 +90,8 @@ class HCPagesController extends HCBaseController
 
         $record = HCPages::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
-        $record->categories()->sync(array_get($data, 'categories'));
+        $record->categories()->sync(array_get($data, 'categories', []));
+
 
         return $this->apiShow($record->id);
     }
@@ -142,7 +110,7 @@ class HCPagesController extends HCBaseController
 
         $record->update(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
-        $record->categories()->sync(array_get($data, 'categories'));
+        $record->categories()->sync(array_get($data, 'categories', []));
         $record->removeCachedMenu();
 
         return $this->apiShow($record->id);
@@ -169,10 +137,10 @@ class HCPagesController extends HCBaseController
      */
     protected function __apiDestroy(array $list)
     {
-        HCPagesTranslations::destroy (HCPagesTranslations::whereIn ('record_id', $list)->pluck ('id')->toArray ());
+        HCPagesTranslations::destroy(HCPagesTranslations::whereIn('record_id', $list)->pluck('id')->toArray());
         $pages = HCPages::findMany($list);
 
-        foreach ( $pages as $page ) {
+        foreach ($pages as $page) {
             $page->removeCachedMenu();
             $page->delete();
         }
@@ -188,7 +156,7 @@ class HCPagesController extends HCBaseController
      */
     protected function __apiForceDelete(array $list)
     {
-        HCPagesTranslations::onlyTrashed ()->whereIn ('record_id', $list)->forceDelete ();
+        HCPagesTranslations::onlyTrashed()->whereIn('record_id', $list)->forceDelete();
         HCPages::onlyTrashed()->whereIn('id', $list)->forceDelete();
 
         return hcSuccess();
@@ -202,10 +170,10 @@ class HCPagesController extends HCBaseController
      */
     protected function __apiRestore(array $list)
     {
-        HCPagesTranslations::onlyTrashed ()->whereIn ('record_id', $list)->restore ();
-        $pages = HCPages::onlyTrashed ()->whereIn('id', $list)->get();
+        HCPagesTranslations::onlyTrashed()->whereIn('record_id', $list)->restore();
+        $pages = HCPages::onlyTrashed()->whereIn('id', $list)->get();
 
-        foreach ( $pages as $page ) {
+        foreach ($pages as $page) {
             $page->restore();
             $page->removeCachedMenu();
         }
@@ -274,7 +242,7 @@ class HCPagesController extends HCBaseController
         $_data = request()->all();
 
         if (array_has($_data, 'id'))
-            array_set ($data, 'record.id', array_get ($_data, 'id'));
+            array_set($data, 'record.id', array_get($_data, 'id'));
 
         $user = Auth::user() ? Auth::user()->id : null;
 
@@ -286,18 +254,18 @@ class HCPagesController extends HCBaseController
 
         $translations = array_get($_data, 'translations');
 
-        foreach ($translations as &$value)
-        {
+        foreach ($translations as &$value) {
             if (!isset($value['slug']) || $value['slug'] == "")
                 $value['slug'] = generateHCSlug(HCPagesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
         }
 
         array_set($data, 'translations', $translations);
+        array_set($data, 'categories', array_get($_data, 'categories'));
+    //    array_set($data, 'users', array_get($_data, 'users'));
+    //    array_set($data, 'userGroups', array_get($_data, 'userGroups'));
 
-        array_set($data, 'categories', array_get($_data, 'categories', []));
-
-        array_set($data, 'users', array_get($_data, 'users', []));
-        array_set($data, 'userGroups', array_get($_data, 'userGroups', []));
+        if ($data['categories'] == '')
+            $data['categories'] = [];
 
         return makeEmptyNullable($data);
     }
@@ -341,17 +309,17 @@ class HCPagesController extends HCBaseController
      */
     public function options()
     {
-        if( request()->has('language') ) {
+        if (request()->has('language')) {
             $pages = HCPagesTranslations::select('record_id as id', 'title', 'language_code')
                 ->where('language_code', request('language'));
 
-            if( request()->has('type') ) {
-                $pages->whereHas('record', function($query) {
+            if (request()->has('type')) {
+                $pages->whereHas('record', function ($query) {
                     $query->where('type', strtoupper(request('type')));
                 });
             }
 
-            if( request()->has('q') ) {
+            if (request()->has('q')) {
                 $pages->where('title', 'LIKE', '%' . request('q') . '%');
             }
 
