@@ -13,7 +13,7 @@ class HCPagesCategoriesController extends HCBaseController
     {
         $list = removeRecordsWithNoTranslation(HCPagesCategories::with('translation')->get()->toArray());
 
-        return hcview('HCPages::page.categories-list', ['data' => ['list' => $list]]);
+        return hcview('HCPages::categories.list', ['data' => ['list' => $list]]);
     }
 
     /**
@@ -24,6 +24,6 @@ class HCPagesCategoriesController extends HCBaseController
     public function showCategoriesPages (string $lang, string $slug)
     {
         //TODO make request to retrieve list of pages based on category id
-        return hcview('HCPages::page.list', ['data' => []]);
+        return hcview('HCPages::categories.articles', ['data' => []]);
     }
 }
