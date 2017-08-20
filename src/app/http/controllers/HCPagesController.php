@@ -1,5 +1,6 @@
 <?php namespace interactivesolutions\honeycombpages\app\http\controllers;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
@@ -247,8 +248,7 @@ class HCPagesController extends HCBaseController
         $user = Auth::user() ? Auth::user()->id : null;
 
         array_set($data, 'record.author_id', $user);
-        array_set($data, 'record.publish_at', array_get($_data, 'publish_at'));
-        array_set($data, 'record.expires_at', array_get($_data, 'expires_at'));
+        array_set($data, 'record.publish_at', array_get($_data, 'publish_at', Carbon::now()));
         array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
         array_set($data, 'record.type', array_get($_data, 'type'));
 
