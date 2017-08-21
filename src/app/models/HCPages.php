@@ -166,6 +166,6 @@ class HCPages extends HCMultiLanguageModel
 
     public function categories ()
     {
-        return $this->belongsToMany(HCPagesCategories::class, HCPagesCategoriesConnections::getTableName(), 'page_id', 'category_id');
+        return $this->belongsToMany(HCPagesCategories::class, HCPagesCategoriesConnections::getTableName(), 'page_id', 'category_id')->with('translation');
     }
 }
