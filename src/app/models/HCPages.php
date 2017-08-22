@@ -139,7 +139,7 @@ class HCPages extends HCMultiLanguageModel
      */
     public function getPageUrlAttribute()
     {
-        return route('page', get_translation_name('slug', app()->getLocale(), $this->translations->toArray()));
+        return route('page', [app()->getLocale(), get_translation_name('slug', app()->getLocale(), $this->translations->toArray())]);
     }
 
     /**
