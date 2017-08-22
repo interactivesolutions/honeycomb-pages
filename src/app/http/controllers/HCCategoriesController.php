@@ -22,8 +22,8 @@ class HCCategoriesController extends HCBaseController
         $config = [
             'title'       => trans('HCPages::categories.page_title'),
             'listURL'     => route('admin.api.categories'),
-            'newFormUrl'  => route('admin.api.form-manager', ['categories-new']),
-            'editFormUrl' => route('admin.api.form-manager', ['categories-edit']),
+            'newFormUrl'  => route('admin.api.form-manager', ['pages-categories-new']),
+            'editFormUrl' => route('admin.api.form-manager', ['pages-categories-edit']),
             'imagesUrl'   => route('resource.get', ['/']),
             'headers'     => $this->getAdminListHeader(),
         ];
