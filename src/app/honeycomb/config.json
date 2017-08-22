@@ -4,7 +4,7 @@
     },
     "formData": {
         "pages": "interactivesolutions\\honeycombpages\\app\\forms\\HCPagesForm",
-        "categories": "interactivesolutions\\honeycombpages\\app\\forms\\HCCategoriesForm"
+        "pages-categories": "interactivesolutions\\honeycombpages\\app\\forms\\HCCategoriesForm"
     },
     "adminMenu": [
         {

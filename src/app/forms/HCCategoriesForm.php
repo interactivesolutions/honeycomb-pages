@@ -5,7 +5,7 @@ namespace interactivesolutions\honeycombpages\app\forms;
 class HCCategoriesForm
 {
     // name of the form
-    protected $formID = 'categories';
+    protected $formID = 'pages-categories';
 
     // is form multi language
     protected $multiLanguage = 1;
