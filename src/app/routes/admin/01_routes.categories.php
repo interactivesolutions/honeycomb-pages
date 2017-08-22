@@ -1,8 +1,8 @@
 <?php
 
-Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function ()
+Route::group(['prefix' => config('hc.admin_url') . '/pages', 'middleware' => ['web', 'auth']], function ()
 {
-    Route::get('pages/categories', ['as' => 'admin.pages.categories.index', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@adminIndex']);
+    Route::get('categories', ['as' => 'admin.pages.categories.index', 'middleware' => ['acl:interactivesolutions_honeycomb_pages_categories_list'], 'uses' => 'HCCategoriesController@adminIndex']);
 
     Route::group(['prefix' => 'api/categories'], function ()
     {
