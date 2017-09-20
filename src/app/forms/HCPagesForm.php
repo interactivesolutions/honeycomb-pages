@@ -64,7 +64,7 @@ class HCPagesForm
                 ], [
                     "type"            => "dateTimePicker",
                     "properties"      => [
-                        "format" => "Y-MM-D HH:mm:ss",
+                        "format" => "YYYY-MM-DD HH:mm:ss",
                     ],
                     "fieldID"         => "publish_at",
                     "tabID"           => trans("Page"),
