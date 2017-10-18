@@ -3,9 +3,9 @@
 namespace interactivesolutions\honeycombpages\app\models;
 
 use Carbon\Carbon;
-use interactivesolutions\honeycombacl\app\models\HCUsers;
-use interactivesolutions\honeycombcore\models\HCMultiLanguageModel;
-use interactivesolutions\honeycombcore\models\traits\CustomAppends;
+use InteractiveSolutions\HoneycombAcl\Models\HCUsers;
+use InteractiveSolutions\HoneycombCore\Models\HCMultiLanguageModel;
+use InteractiveSolutions\HoneycombCore\Models\Traits\CustomAppends;
 use interactivesolutions\honeycombmenu\app\helpers\MenuHelper;
 use interactivesolutions\honeycombmenu\app\models\HCMenu;
 use interactivesolutions\honeycombresources\app\models\HCResources;
@@ -57,7 +57,7 @@ class HCPages extends HCMultiLanguageModel
      */
     public function scopeArticles($query)
     {
-        return $query->where(function ($query) {
+        return $query->where(function($query) {
             $query->where('type', 'ARTICLE')
                 ->where('created_at', '<=', new Carbon());
         });
@@ -139,7 +139,8 @@ class HCPages extends HCMultiLanguageModel
      */
     public function getPageUrlAttribute()
     {
-        return route('page', [app()->getLocale(), get_translation_name('slug', app()->getLocale(), $this->translations->toArray())]);
+        return route('page',
+            [app()->getLocale(), get_translation_name('slug', app()->getLocale(), $this->translations->toArray())]);
     }
 
     /**
@@ -159,13 +160,14 @@ class HCPages extends HCMultiLanguageModel
     {
         $menuTypeIds = $this->menu_items()->pluck('menu_type_id')->unique()->all();
 
-        foreach ( $menuTypeIds as $menuTypeId ) {
+        foreach ($menuTypeIds as $menuTypeId) {
             MenuHelper::clearCache($menuTypeId, app()->getLocale());
         }
     }
 
-    public function categories ()
+    public function categories()
     {
-        return $this->belongsToMany(HCPagesCategories::class, HCPagesCategoriesConnections::getTableName(), 'page_id', 'category_id')->with('translation');
+        return $this->belongsToMany(HCPagesCategories::class, HCPagesCategoriesConnections::getTableName(), 'page_id',
+            'category_id')->with('translation');
     }
 }

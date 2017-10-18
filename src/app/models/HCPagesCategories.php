@@ -2,7 +2,8 @@
 
 namespace interactivesolutions\honeycombpages\app\models;
 
-use interactivesolutions\honeycombcore\models\HCMultiLanguageModel;
+
+use InteractiveSolutions\HoneycombCore\Models\HCMultiLanguageModel;
 
 class HCPagesCategories extends HCMultiLanguageModel
 {

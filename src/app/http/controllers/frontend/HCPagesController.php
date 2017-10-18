@@ -1,7 +1,7 @@
 <?php namespace interactivesolutions\honeycombpages\app\http\controllers\frontend;
 
 use Carbon\Carbon;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombpages\app\models\HCPages;
 use interactivesolutions\honeycombpages\app\models\HCPagesTranslations;
 
@@ -17,20 +17,31 @@ class HCPagesController extends HCBaseController
      * @param string|null $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showArticles (string $lang, string $year = null, string $month = null, string $day = null, string $slug = null)
-    {
+    public function showArticles(
+        string $lang,
+        string $year = null,
+        string $month = null,
+        string $day = null,
+        string $slug = null
+    ) {
         //URL -> articles/2017/03/23/page-name
-        if ($slug)
+        if ($slug) {
             return $this->showArticle($lang, $year, $month, $day, $slug);
+        }
 
-        if ($day)
-            return $this->showByDate((new Carbon($year . '-' . $month . '-' . $day))->startOfDay(), (new Carbon($year . '-' . $month . '-' . $day))->endOfDay());
+        if ($day) {
+            return $this->showByDate((new Carbon($year . '-' . $month . '-' . $day))->startOfDay(),
+                (new Carbon($year . '-' . $month . '-' . $day))->endOfDay());
+        }
 
-        if ($month)
-            return $this->showByDate((new Carbon($year . '-' . $month))->startOfMonth(), (new Carbon($year . '-' . $month))->endOfMonth());
+        if ($month) {
+            return $this->showByDate((new Carbon($year . '-' . $month))->startOfMonth(),
+                (new Carbon($year . '-' . $month))->endOfMonth());
+        }
 
-        if ($year)
+        if ($year) {
             return $this->showByDate((new Carbon($year))->startOfYear(), (new Carbon($year))->endOfYear());
+        }
 
         abort(404, 'Page not found');
     }
@@ -55,8 +66,9 @@ class HCPagesController extends HCBaseController
 
         $data = $query->first();
 
-        if (!$data)
+        if (!$data) {
             abort(404, 'Page not found');
+        }
 
         return hcview('HCPages::page.single', ['data' => ['page' => $data->toArray()]]);
     }
@@ -68,7 +80,7 @@ class HCPagesController extends HCBaseController
      * @param Carbon $endAt
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function showByDate (Carbon $startAt, Carbon $endAt)
+    protected function showByDate(Carbon $startAt, Carbon $endAt)
     {
         $data = HCPages::with('translation')
             ->where('type', 'ARTICLE')
@@ -92,7 +104,7 @@ class HCPagesController extends HCBaseController
      * @param string $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function showArticle (string $lang, string $year, string $month, string $day, string $slug)
+    protected function showArticle(string $lang, string $year, string $month, string $day, string $slug)
     {
         $r = HCPages::getTableName();
         $t = HCPagesTranslations::getTableName();
@@ -109,8 +121,9 @@ class HCPagesController extends HCBaseController
 
         $data = $query->first();
 
-        if (!$data)
+        if (!$data) {
             abort(404, 'Page not found');
+        }
 
         return hcview('HCPages::article.single', ['data' => ['article' => $data->toArray()]]);
     }

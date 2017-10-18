@@ -2,7 +2,8 @@
 
 namespace interactivesolutions\honeycombpages\app\models;
 
-use interactivesolutions\honeycombcore\models\HCUuidModel;
+
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
 
 class HCPagesCategoriesConnections extends HCUuidModel
 {

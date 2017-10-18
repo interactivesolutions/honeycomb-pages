@@ -1,6 +1,6 @@
 <?php
 
-if( ! function_exists('makeEmptyNullable') ) {
+if (!function_exists('makeEmptyNullable')) {
     /**
      * Updates fields values that are empty strings to null
      *
@@ -10,16 +10,16 @@ if( ! function_exists('makeEmptyNullable') ) {
      */
     function makeEmptyNullable(array $array, $trimValue = false)
     {
-        foreach ( $array as $key => $value ) {
-            if( is_array($value) ) {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
                 $value = makeEmptyNullable($value, $trimValue);
             }
 
-            if( $trimValue && is_string($value) ) {
+            if ($trimValue && is_string($value)) {
                 $value = trim($value);
             }
 
-            if( $value == "" ) {
+            if ($value == "") {
                 $value = null;
             }
 

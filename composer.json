@@ -3,17 +3,48 @@
     "description": "",
     "keywords": [],
     "license": "MIT",
-    "authors": [],
+    "authors": [
+        {
+            "name": "Jevgenij Dmitrijev",
+            "email": "jd@interactivesolutions.lt"
+        },
+        {
+            "name": "Vytautas Rimeikis",
+            "email": "vytautas.rimeikis@gmail.com"
+        }
+    ],
     "repositories": [],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1",
         "laravel/framework": "5.3.*",
-        "interactivesolutions/honeycomb-core": "~0.6.0",
-        "interactivesolutions/honeycomb-menu": "~0.2.0"
+        "interactivesolutions/honeycomb-core": "~1.0.0",
+        "interactivesolutions/honeycomb-menu": "~1.0.0"
+    },
+    "require-dev": {
+        "brianium/paratest": "^0.14",
+        "mockery/mockery": "^0.9",
+        "orchestra/testbench-browser-kit": "^3.3",
+        "phpunit/phpunit": "^5.7"
     },
     "autoload": {
         "psr-4": {
             "interactivesolutions\\honeycombpages\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": [
+            "paratest -p4 --colors"
+        ]
+    },
+    "config": {
+        "secure-http": false,
+        "platform": {
+            "php": "7.1"
         }
     }
 }

@@ -14,7 +14,7 @@ class RemovePublishDatesFromPagesTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('hc_pages_translations', function (Blueprint $table) {
+        Schema::table('hc_pages_translations', function(Blueprint $table) {
             $table->dropColumn(['publish_at', 'expires_at']);
         });
     }
@@ -26,7 +26,7 @@ class RemovePublishDatesFromPagesTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_pages_translations', function (Blueprint $table) {
+        Schema::table('hc_pages_translations', function(Blueprint $table) {
             $table->timestamp('publish_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('expires_at')->nullable();
         });

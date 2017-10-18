@@ -13,7 +13,7 @@ class AddSeoFieldsToPagesCategoriesTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('hc_pages_categories_translations', function (Blueprint $table) {
+        Schema::table('hc_pages_categories_translations', function(Blueprint $table) {
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();
             $table->string('seo_keywords')->nullable();
@@ -27,7 +27,7 @@ class AddSeoFieldsToPagesCategoriesTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_pages_categories_translations', function (Blueprint $table) {
+        Schema::table('hc_pages_categories_translations', function(Blueprint $table) {
             $table->dropColumn('seo_title');
             $table->dropColumn('seo_description');
             $table->dropColumn('seo_keywords');

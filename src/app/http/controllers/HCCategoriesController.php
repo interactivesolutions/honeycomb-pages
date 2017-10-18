@@ -1,7 +1,7 @@
 <?php namespace interactivesolutions\honeycombpages\app\http\controllers;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategories;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategoriesTranslations;
 use interactivesolutions\honeycombpages\app\validators\HCCategoriesValidator;
@@ -17,30 +17,32 @@ class HCCategoriesController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminIndex ()
+    public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCPages::categories.page_title'),
-            'listURL'     => route('admin.api.categories'),
-            'newFormUrl'  => route('admin.api.form-manager', ['pages-categories-new']),
+            'title' => trans('HCPages::categories.page_title'),
+            'listURL' => route('admin.api.categories'),
+            'newFormUrl' => route('admin.api.form-manager', ['pages-categories-new']),
             'editFormUrl' => route('admin.api.form-manager', ['pages-categories-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_create'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_create')) {
             $config['actions'][] = 'new';
+        }
 
         if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_pages_categories_delete')) {
             $config['actions'][] = 'delete';
+        }
 
         $config['actions'][] = 'search';
-        $config['filters']   = $this->getFilters();
+        $config['filters'] = $this->getFilters();
 
         return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -50,24 +52,24 @@ class HCCategoriesController extends HCBaseController
      *
      * @return array
      */
-    public function getAdminListHeader ()
+    public function getAdminListHeader()
     {
         return [
 
-            'cover_photo_id'            => [
-                "type"  => "image",
+            'cover_photo_id' => [
+                "type" => "image",
                 "label" => trans('HCPages::categories.cover_photo_id'),
             ],
             'translations.{lang}.title' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCPages::categories.title'),
             ],
-            'translations.{lang}.slug'  => [
-                "type"  => "text",
+            'translations.{lang}.slug' => [
+                "type" => "text",
                 "label" => trans('HCPages::categories.slug'),
             ],
-            'parent_id'                 => [
-                "type"  => "text",
+            'parent_id' => [
+                "type" => "text",
                 "label" => trans('HCPages::categories.parent_id'),
             ],
         ];
@@ -79,10 +81,11 @@ class HCCategoriesController extends HCBaseController
      * @param array|null $data
      * @return mixed
      */
-    protected function __apiStore (array $data = null)
+    protected function __apiStore(array $data = null)
     {
-        if (is_null($data))
+        if (is_null($data)) {
             $data = $this->getInputData();
+        }
 
         $record = HCPagesCategories::create(array_get($data, 'record'));
         $record->updateTranslations(array_get($data, 'translations'));
@@ -96,7 +99,7 @@ class HCCategoriesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    protected function __apiUpdate (string $id)
+    protected function __apiUpdate(string $id)
     {
         $record = HCPagesCategories::findOrFail($id);
 
@@ -114,7 +117,7 @@ class HCCategoriesController extends HCBaseController
      * @param string $id
      * @return mixed
      */
-    protected function __apiUpdateStrict (string $id)
+    protected function __apiUpdateStrict(string $id)
     {
         HCPagesCategories::where('id', $id)->update(request()->all());
 
@@ -127,7 +130,7 @@ class HCCategoriesController extends HCBaseController
      * @param $list
      * @return mixed
      */
-    protected function __apiDestroy (array $list)
+    protected function __apiDestroy(array $list)
     {
         HCPagesCategories::destroy($list);
 
@@ -140,7 +143,7 @@ class HCCategoriesController extends HCBaseController
      * @param $list
      * @return mixed
      */
-    protected function __apiForceDelete (array $list)
+    protected function __apiForceDelete(array $list)
     {
         HCPagesCategories::onlyTrashed()->whereIn('id', $list)->forceDelete();
 
@@ -153,7 +156,7 @@ class HCCategoriesController extends HCBaseController
      * @param $list
      * @return mixed
      */
-    protected function __apiRestore (array $list)
+    protected function __apiRestore(array $list)
     {
         HCPagesCategories::whereIn('id', $list)->restore();
 
@@ -166,16 +169,17 @@ class HCCategoriesController extends HCBaseController
      * @param array $select
      * @return mixed
      */
-    protected function createQuery (array $select = null)
+    protected function createQuery(array $select = null)
     {
         $with = ['translations'];
 
-        if ($select == null)
+        if ($select == null) {
             $select = HCPagesCategories::getFillableFields(true);
+        }
 
         $list = HCPagesCategories::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -197,7 +201,7 @@ class HCCategoriesController extends HCBaseController
      * @param string $phrase
      * @return mixed
      */
-    protected function searchQuery (Builder $query, string $phrase)
+    protected function searchQuery(Builder $query, string $phrase)
     {
         $r = HCPagesCategories::getTableName();
         $t = HCPagesCategoriesTranslations::getTableName();
@@ -215,15 +219,16 @@ class HCCategoriesController extends HCBaseController
      *
      * @return mixed
      */
-    protected function getInputData ()
+    protected function getInputData()
     {
         (new HCCategoriesValidator())->validateForm();
         (new HCCategoriesTranslationsValidator())->validateForm();
 
         $_data = request()->all();
 
-        if (array_has($_data, 'id'))
+        if (array_has($_data, 'id')) {
             array_set($data, 'record.id', array_get($_data, 'id'));
+        }
 
         array_set($data, 'record.parent_id', array_get($_data, 'parent_id'));
         array_set($data, 'record.cover_photo_id', array_get($_data, 'cover_photo_id'));
@@ -231,8 +236,10 @@ class HCCategoriesController extends HCBaseController
         $translations = array_get($_data, 'translations');
 
         foreach ($translations as &$value) {
-            if (!isset($value['slug']) || $value['slug'] == "")
-                $value['slug'] = generateHCSlug(HCPagesCategoriesTranslations::getTableName() . '_' . $value['language_code'], $value['title']);
+            if (!isset($value['slug']) || $value['slug'] == "") {
+                $value['slug'] = generateHCSlug(HCPagesCategoriesTranslations::getTableName() . '_' . $value['language_code'],
+                    $value['title']);
+            }
         }
 
         array_set($data, 'translations', $translations);
@@ -246,7 +253,7 @@ class HCCategoriesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function apiShow (string $id)
+    public function apiShow(string $id)
     {
         $with = ['translations'];
 
@@ -265,7 +272,7 @@ class HCCategoriesController extends HCBaseController
      *
      * @return array
      */
-    public function getFilters ()
+    public function getFilters()
     {
         $filters = [];
 

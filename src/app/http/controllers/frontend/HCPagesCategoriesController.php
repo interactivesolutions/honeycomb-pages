@@ -1,19 +1,18 @@
 <?php namespace interactivesolutions\honeycombpages\app\http\controllers\frontend;
 
 use Carbon\Carbon;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombpages\app\models\HCPages;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategories;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategoriesConnections;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategoriesTranslations;
-use interactivesolutions\honeycombpages\app\models\HCPagesTranslations;
 
 class HCPagesCategoriesController extends HCBaseController
 {
     /**
      * Showing list of categories
      */
-    public function showCategoriesList ()
+    public function showCategoriesList()
     {
         $list = removeRecordsWithNoTranslation(HCPagesCategories::with('translation')->get()->toArray());
 
@@ -27,7 +26,7 @@ class HCPagesCategoriesController extends HCBaseController
      * @param string $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showCategoriesPages (string $lang, string $slug)
+    public function showCategoriesPages(string $lang, string $slug)
     {
         return $this->showData($lang, $slug, 'PAGE');
     }
@@ -39,7 +38,7 @@ class HCPagesCategoriesController extends HCBaseController
      * @param string $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showCategoriesArticles (string $lang, string $slug)
+    public function showCategoriesArticles(string $lang, string $slug)
     {
         return $this->showData($lang, $slug, 'ARTICLE');
     }
@@ -50,14 +49,15 @@ class HCPagesCategoriesController extends HCBaseController
      * @param string $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    private function showData (string $lang, string $slug, string $type)
+    private function showData(string $lang, string $slug, string $type)
     {
         $category = HCPagesCategoriesTranslations::where('slug', $slug)
             ->where('language_code', $lang)
             ->first();
 
-        if (!$category)
+        if (!$category) {
             abort(404, 'Page not found');
+        }
 
         $r = HCPages::getTableName();
         $c = HCPagesCategoriesConnections::getTableName();

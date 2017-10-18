@@ -3,7 +3,7 @@
 namespace interactivesolutions\honeycombpages\app\models;
 
 use Carbon\Carbon;
-use interactivesolutions\honeycombcore\models\HCUuidModel;
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 
 class HCPagesTranslations extends HCUuidModel
@@ -20,7 +20,20 @@ class HCPagesTranslations extends HCUuidModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'record_id', 'language_code', 'title', 'slug', 'summary', 'content', 'cover_photo_id', 'author_id', 'seo_title', 'seo_description', 'seo_keywords'];
+    protected $fillable = [
+        'id',
+        'record_id',
+        'language_code',
+        'title',
+        'slug',
+        'summary',
+        'content',
+        'cover_photo_id',
+        'author_id',
+        'seo_title',
+        'seo_description',
+        'seo_keywords',
+    ];
 
     /**
      * Relation to model
@@ -39,6 +52,7 @@ class HCPagesTranslations extends HCUuidModel
      */
     public function record()
     {
-        return $this->belongsTo(str_replace('Translations', '', get_class($this)), 'record_id', 'id')->where('publish_at', '<', Carbon::now());
+        return $this->belongsTo(str_replace('Translations', '', get_class($this)), 'record_id',
+            'id')->where('publish_at', '<', Carbon::now());
     }
 }

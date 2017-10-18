@@ -13,7 +13,7 @@ class MakeNullableAuthorIdInHcPages extends Migration
      */
     public function up()
     {
-        Schema::table('hc_pages', function (Blueprint $table) {
+        Schema::table('hc_pages', function(Blueprint $table) {
             $table->string('author_id', 36)->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ class MakeNullableAuthorIdInHcPages extends Migration
      */
     public function down()
     {
-        Schema::table('hc_pages', function (Blueprint $table) {
+        Schema::table('hc_pages', function(Blueprint $table) {
             $table->string('author_id', 36)->nullable(false)->change();
         });
     }

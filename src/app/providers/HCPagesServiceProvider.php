@@ -2,7 +2,8 @@
 
 namespace interactivesolutions\honeycombpages\app\providers;
 
-use interactivesolutions\honeycombcore\providers\HCBaseServiceProvider;
+
+use InteractiveSolutions\HoneycombCore\Providers\HCBaseServiceProvider;
 
 class HCPagesServiceProvider extends HCBaseServiceProvider
 {

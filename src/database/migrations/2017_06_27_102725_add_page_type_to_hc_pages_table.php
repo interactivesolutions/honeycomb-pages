@@ -13,7 +13,7 @@ class AddPageTypeToHcPagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('hc_pages', function (Blueprint $table) {
+        Schema::table('hc_pages', function(Blueprint $table) {
             $table->enum('type', ['PAGE', 'ARTICLE'])->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddPageTypeToHcPagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_pages', function (Blueprint $table) {
+        Schema::table('hc_pages', function(Blueprint $table) {
             $table->dropColumn('type');
         });
     }

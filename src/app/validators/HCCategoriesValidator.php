@@ -1,6 +1,7 @@
 <?php namespace interactivesolutions\honeycombpages\app\validators;
 
-use interactivesolutions\honeycombcore\http\controllers\HCCoreFormValidator;
+
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCCoreFormValidator;
 
 class HCCategoriesValidator extends HCCoreFormValidator
 {
@@ -12,7 +13,7 @@ class HCCategoriesValidator extends HCCoreFormValidator
     protected function rules()
     {
         return [
-            
+
         ];
     }
 }

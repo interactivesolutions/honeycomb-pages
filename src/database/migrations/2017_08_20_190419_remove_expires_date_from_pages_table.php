@@ -13,7 +13,7 @@ class RemoveExpiresDateFromPagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('hc_pages', function (Blueprint $table) {
+        Schema::table('hc_pages', function(Blueprint $table) {
             $table->dropColumn('expires_at');
         });
     }
@@ -25,7 +25,7 @@ class RemoveExpiresDateFromPagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_pages', function (Blueprint $table) {
+        Schema::table('hc_pages', function(Blueprint $table) {
             $table->timestamp('expires_at')->nullable();
         });
     }
