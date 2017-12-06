@@ -201,7 +201,7 @@ class HCCategoriesController extends HCBaseController
      * @param string $phrase
      * @return mixed
      */
-    protected function searchQuery(Builder $query, string $phrase)
+    protected function searchQuery(Builder $query, string $phrase): Builder
     {
         $r = HCPagesCategories::getTableName();
         $t = HCPagesCategoriesTranslations::getTableName();
@@ -218,6 +218,7 @@ class HCCategoriesController extends HCBaseController
      * Getting user data on POST call
      *
      * @return mixed
+     * @throws \Exception
      */
     protected function getInputData()
     {

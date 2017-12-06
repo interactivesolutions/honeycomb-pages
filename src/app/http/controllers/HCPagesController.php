@@ -223,7 +223,7 @@ class HCPagesController extends HCBaseController
      * @param string $phrase
      * @return Builder
      */
-    protected function searchQuery(Builder $query, string $phrase)
+    protected function searchQuery(Builder $query, string $phrase): Builder
     {
         $r = HCPages::getTableName();
         $t = HCPagesTranslations::getTableName();
@@ -238,6 +238,7 @@ class HCPagesController extends HCBaseController
      * Getting user data on POST call
      *
      * @return mixed
+     * @throws \Exception
      */
     protected function getInputData()
     {
