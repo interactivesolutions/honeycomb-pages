@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 use interactivesolutions\honeycombpages\app\models\HCPagesCategoriesTranslations;
 
+/**
+ * Class RenewForeignLanguageCodeIdHcPagesCategoriesTranslationsTable
+ */
 class RenewForeignLanguageCodeIdHcPagesCategoriesTranslationsTable extends Migration
 {
 
@@ -13,16 +17,16 @@ class RenewForeignLanguageCodeIdHcPagesCategoriesTranslationsTable extends Migra
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('hc_pages_categories_translations', function(Blueprint $table) {
-            $list = HCPagesCategoriesTranslations::get();
+        $list = HCPagesCategoriesTranslations::get();
 
-            foreach ($list as $key => $value) {
-                HCPagesCategoriesTranslations::where('id',
-                    $value->id)->update(['language_code' => HCLanguages::find($value->language_code)->iso_639_1]);
-            }
-        });
+        foreach ($list as $key => $value) {
+            HCPagesCategoriesTranslations::where('id', $value->id)
+                ->update([
+                    'language_code' => HCLanguages::find($value->language_code)->iso_639_1,
+                ]);
+        }
     }
 
 
@@ -31,16 +35,14 @@ class RenewForeignLanguageCodeIdHcPagesCategoriesTranslationsTable extends Migra
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('hc_pages_categories_translations', function(Blueprint $table) {
-            $list = HCPagesCategoriesTranslations::get();
+        $list = HCPagesCategoriesTranslations::get();
 
-            foreach ($list as $key => $value) {
-                HCPagesCategoriesTranslations::where('id', $value->id)->update([
-                    'language_code' => HCLanguages::where('iso_639_1', $value->language_code)->first()->id,
-                ]);
-            }
-        });
+        foreach ($list as $key => $value) {
+            HCPagesCategoriesTranslations::where('id', $value->id)->update([
+                'language_code' => HCLanguages::where('iso_639_1', $value->language_code)->first()->id,
+            ]);
+        }
     }
 }

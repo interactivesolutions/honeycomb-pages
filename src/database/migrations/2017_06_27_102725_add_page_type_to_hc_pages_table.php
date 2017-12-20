@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Class AddPageTypeToHcPagesTable
+ */
 class AddPageTypeToHcPagesTable extends Migration
 {
     /**
@@ -11,9 +16,9 @@ class AddPageTypeToHcPagesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('hc_pages', function(Blueprint $table) {
+        Schema::table('hc_pages', function (Blueprint $table) {
             $table->enum('type', ['PAGE', 'ARTICLE'])->nullable();
         });
     }
@@ -23,9 +28,9 @@ class AddPageTypeToHcPagesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('hc_pages', function(Blueprint $table) {
+        Schema::table('hc_pages', function (Blueprint $table) {
             $table->dropColumn('type');
         });
     }

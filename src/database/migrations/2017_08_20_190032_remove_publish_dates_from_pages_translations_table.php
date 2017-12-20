@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Class RemovePublishDatesFromPagesTranslationsTable
+ */
 class RemovePublishDatesFromPagesTranslationsTable extends Migration
 {
     /**
@@ -12,9 +17,9 @@ class RemovePublishDatesFromPagesTranslationsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('hc_pages_translations', function(Blueprint $table) {
+        Schema::table('hc_pages_translations', function (Blueprint $table) {
             $table->dropColumn(['publish_at', 'expires_at']);
         });
     }
@@ -24,10 +29,10 @@ class RemovePublishDatesFromPagesTranslationsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('hc_pages_translations', function(Blueprint $table) {
-            $table->timestamp('publish_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+        Schema::table('hc_pages_translations', function (Blueprint $table) {
+            $table->timestamp('publish_at')->current();
             $table->timestamp('expires_at')->nullable();
         });
     }
