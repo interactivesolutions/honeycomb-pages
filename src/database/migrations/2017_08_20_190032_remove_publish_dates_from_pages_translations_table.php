@@ -32,7 +32,7 @@ class RemovePublishDatesFromPagesTranslationsTable extends Migration
     public function down(): void
     {
         Schema::table('hc_pages_translations', function (Blueprint $table) {
-            $table->timestamp('publish_at')->current();
+            $table->timestamp('publish_at')->useCurrent();
             $table->timestamp('expires_at')->nullable();
         });
     }
